@@ -1,6 +1,5 @@
 import logging
 import os
-import sys
 
 logger = logging.getLogger('main')
 
@@ -90,6 +89,14 @@ def edit_results_html(status_ok, results_path, output_html_path, msg, run_number
         edit_failure_html(output_html_path, run_number, msg)
     post_html_editing(output_html_path)
 
+
+def notify_by_email(addressee, status_ok, output_html_path, msg=''):
+    from email_sender import send_email
+    if not msg:
+        msg = f"{CONSTS.PIPELINE_NAME} pipeline {'FINISHED' if status_ok else 'FAILED'}. Results can be found at {output_html_path}."
+    logger.info(msg)
+    send_email(CONSTS.SMTP_SERVER, CONSTS.ADMIN_EMAIL, addressee,
+               subject=f"{CONSTS.PIPELINE_NAME} {'FINISHED' if status_ok else 'FAILED'}", content=msg)
 
 if __name__ == '__main__':
     from modelteller_cgi import write_html_prefix
