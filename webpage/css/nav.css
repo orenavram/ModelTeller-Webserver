@@ -1,0 +1,36 @@
+
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #222222;
+}
+
+li:last-child{
+    float: right;
+}
+
+li[name="black_text"]{
+    color: #222;
+}
+
+#tau-logo{
+    height: 65px;
+    width: 110px;
+}
+
+#nav_bar_image{
+    width: 140px;
+    height: 120px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#tau-link{
+    padding: 0px;
+}
+
+nav ul{
+    width: 100%;
+}

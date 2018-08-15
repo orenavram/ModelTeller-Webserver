@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>ModelTeller Overview</title>
+	<!--<meta charset="utf-8">-->
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+	<link rel="shortcut icon" type="image/x-icon" href="https://modelteller.tau.ac.il/pics/logo.gif" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css">
+
+	<!--files for the select tag-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>-->
+
+	<!--files for the checkbox tag (toggle)-->
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
+	<link rel="stylesheet" href="css/general.css">
+	<link rel="stylesheet" href="css/nav.css">
+
+	<!--<link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>-->
+
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<!--<script> $(function(){-->
+		<!--$("head").load("header.html");-->
+		<!--$('#loadingMask').fadeOut();});-->
+	<!--</script>-->
+</head>
+<body>
+<nav role="navigation" class="navbar navbar-inverse navbar-fixed-top" id="nav">
+    <div class="jumbotron" id="jumbo">
+        <div class="container">
+            <div class="row" id="title-row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10" align="center">
+                    <span id="server-title">ModelTeller</span><br>
+                    <img src="pics/logo.gif" id="nav_bar_image" class="img-rounded"><br>
+                    <span id="sub-title">A machine learning tool for phylogenetic model selection</span>
+					<br><br>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+		<div class="container" id="nav_container">
+			<div class="row">
+				<div class="col-md-2">
+				</div>
+				<div class="col-md-8">
+					<ul class="nav navbar-nav" id="menu-nav">
+						<li>
+							<a href="index.html">Home</a>
+						</li>
+						<li class="active">
+							<a href="overview.html">Overview</a>
+						</li>
+						<!--<li>-->
+							<!--<a href="gallery.html">Gallery</a>-->
+						<!--</li>-->
+						<li>
+							<a href="https://english.tau.ac.il/" id="tau-link" target="_blank">
+								<img src=pics/TAU_LOGO.png id="tau-logo">
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-2">
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div id="behind-nav-bar">
+	</div>
+	<div class="container" id="overview_container">
+		<div class="row">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-8" align="justify">
+				<h2>Phylogenetic  Model  Selection</h2>
+				Model  Selection  is  considered  as  a  mandatory  first  step  for  phylogeny  reconstruction.  Currently,  this  task  is  accomplished  by  computing  the  likelihood  of  every  candidate  model  to  the  data,  and  eventually  selecting  the  best-fitted  one.  However,  this  approach  comes  with  several  problems.  First,  the  requirement  to  compute  the  likelihood  of  every  single  model  in  order  to  get  the  single  best  one  is  highly  time  consuming.  Second,  statistical  model  selection  criteria  are  not  optimized  for  phylogenetics.  Some  criteria,  like  the  AIC  or  the  BIC  assume  independence  of  the  data  particles  (such  as  the  alignment  sites  or  the  nucleotides  within  the  alignment,  which  are  clearly  dependent).  Some,  like  the  hLRT  or  the  AIC  assume  infinite  data  size.  Ultimately,  the  choice  for  the  best  model  is  neither  efficient,  nor  it  is  established.
+				<br><br>
+
+
+				<h2>What is ModelTeller?</h2>
+				ModelTeller is a machine learning algorithm that is trained and optimized to retrieve the nucleotide substitution model that yields the most accurate tree. ModelTeller was trained across 15,000 alignments that were sampled from empirical cases. These range across a wide range of sequence lengths, number of sequences, and sequence divergences. ModelTeller was optimized to predict the model that generates a tree of lowest distance to the true one (in simulations).
+				<br><br>
+
+
+				<h2>How to use ModelTeller?</h2>
+				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox. ModelTeller will read your input, compute the relevant features, and report the best model for each of the alignments.
+				<br><br>
+
+
+				<h2>Input<br></h2>
+				ModelTeller is implemented in python and accepts as input any alignment file format that is valid in Biopython (listed below). Once you upload the alignment, ModelTeller detects the format and continues the computation:<br><br>
+				<ul>
+				<li><b>clustal</b> - output from Clustal W or X.</li><br>
+				<li><b>emboss</b> - EMBOSS tools' "pairs" and "simple" alignment formats.</li><br>
+				<li><b>fasta</b> - the generic sequence file format where each record starts with an identifier line starting with a ">" character, followed by lines of sequence.</li><br>
+				<li><b>ig</b> - the IntelliGenetics file format, apparently the same as the MASE alignment format.</li><br>
+				<li><b>nexus</b> - output from NEXUS.</li><br>
+				<li><b>phylip/phylip-sequential/phylip-relaxed.</b></li><br>
+				<li><b>stockholm</b> - a richly annotated alignment file format used by PFAM.</li><br>
+				<li><b>mauve</b> - output from progressiveMauve/Mauve.</li><br>
+				</ul>
+				In case that ModelTeller could not read your input file, it would notify you with an error message.
+				<br><br>
+
+
+				<h2>The substitution models</h2>
+				ModelTeller incorporates 24 nucleotide substitution models. Those include : Jukes and Cantor (JC)[1], Felsenstein 1981 (F81)[2], Kimura two parameters (K2P)[3], Hasegawa-Kishino-Yano (HKY)[4], the generalized symmetrical model (SYM)[5], and General Time Reversible (GTR)[6], combined with the proportion of invariable sites (+I), rate heterogeneity across sites (+G), or both (+I+G).
+				<br><br>
+
+
+				<h2>ModelTeller running time</h2>
+				Whereas the statistical methods for phylogenetic reconstruction may take hours or even days of computation, ModelTeller can retrieve results instantly! For a set of 15,000 datasets ModelTeller ran in 9.6 <b>seconds</b> on average, whereas the maximum likelihood approaches ran 12.5 <b>minutes</b> on average.
+				<br><br>
+
+
+				<h2>ModelTeller accuracy</h2>
+				The computational approach of ModelTeller yields more accurate results than the statistical approaches, as it is optimized to predict the closest tree. The table below shows the average of the topological distance (Robinson-Foulds7) or the branch length distance (Euclidean distance of the branches8) between the reconstructed trees of each method and the true tree across the 15,000 datasets in the training set. The predictions were made with a cross-validation procedure.
+				<br><br>
+				<img src="pics/dist_table.jpg" id="overview_picture">
+				<br><br>
+
+
+				<h2>References</h2>
+				[1]	Jukes, T. H. & CANTOR, C. R. in Mammalian Protein Metabolism 21-132 (Academic Press, 1969).<br>
+				[2]	Felsenstein, J. Evolutionary trees from DNA sequences: A maximum likelihood approach. J. Mol. Evol. 17, 368-376 (1981).<br>
+				[3]	Kimura, M. A simple method for estimating evolutionary rates of base substitutions through comparative studies of nucleotide sequences. J. Mol. Evol. 16, 111-120 (1980).<br>
+				[4]	Hasegawa, M., Kishino, H. & Yano, T. aki. Dating of the human-ape splitting by a molecular clock of mitochondrial DNA. J. Mol. Evol. 22, 160-174 (1985).<br>
+				[5]	Zharkikh, A. Estimation of evolutionary distances between nucleotide sequences. J. Mol. Evol. 39, 315-329 (1994).<br>
+				[6]	Tavare, S. in Lectures on Mathematics in the Life Sciences. 17, 57-86 (American Mathematical Society, 1986).<br>
+				[7]	Robinson, D. F. & Foulds, L. R. Comparison of phylogenetic trees. Math. Biosci. 53, 131-147 (1981).<br>
+				[8]	Kuhner, M. K. & Felsenstein, J. A simulation comparison of phylogeny algorithms under equal and unequal evolutionary rates. Mol Biol Evol 11, 459-468 (1994).<br>
+
+				<!--<li><a href="http://www.pnas.org/content/111/6/2259" target="_blank" id="ref1">Lavinder, J. J. et al. <i>Proc Natl Acad Sci USA</i> 111, 2259-2264 (2014).</a></li>-->
+				<!--<br>-->
+				<!--<li><a href="http://www.pnas.org/content/110/8/2993" target="_blank" id="ref2">Wine, Y. et al. <i>Proc Natl Acad Sci USA</i> 110, 2993-2998 (2013).</a></li>-->
+				<!--<br>-->
+				<!--<li><a href="http://www.nature.com/articles/nbt.2782" target="_blank" id="ref3">Georgiou, G. et al. <i>Nat Biotech</i> 32, 158-168 (2014).</a></li>-->
+				<!--<br>-->
+				<!--<li><a href="https://www.sciencedirect.com/science/article/pii/S1074761300000066" target="_blank" id="ref4">Xu, J. L. et al. <i>Immunity</i> 13, 37-45 (2000).</a></li>-->
+				<!--<br>-->
+				<!--<li><a href="https://www.ncbi.nlm.nih.gov/books/NBK10757/" target="_blank" id="ref5">Murphy, K. et al. <i>Janeway's immunobiology</i>.  (Garland Science, 2012).</a></li>-->
+				<!--<br>-->
+				<!--<li><a href="https://academic.oup.com/nar/article/27/1/209/1234872" target="_blank" id="ref6">Lefranc, M.-P. et al. <i>Nucleic Acids Research</i> 27, 209-212 (1999).</a></li>-->
+				<!--<br>-->
+				<!--<li><a href="https://www.nature.com/articles/nmeth.3364" target="_blank" id="ref7">Bolotin, D. A. et al. <i>Nature Methods</i> 12, 380 (2015).</a></li>-->
+				<br><br>
+
+
+			</div>
+            <div class="col-md-2">
+            </div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+

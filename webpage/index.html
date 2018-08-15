@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ModelTeller</title>
+    <!--<meta charset="utf-8">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+    <link rel="shortcut icon" type="image/x-icon" href="http://modelteller.tau.ac.il/pics/logo.gif" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css">
+
+    <!--files for the select tag-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>-->
+
+    <!--files for the checkbox tag (toggle)-->
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <script src="scripts/form_handler.js"></script>
+
+</head>
+<body>
+<nav role="navigation" class="navbar navbar-inverse navbar-fixed-top" id="nav">
+    <div class="jumbotron" id="jumbo">
+        <div class="container">
+            <div class="row" id="title-row" align="center">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10" align="center">
+                    <span id="server-title">ModelTeller</span><br>
+                    <img src="pics/logo.gif" id="nav_bar_image" class="img-rounded"><br>
+                    <span id="sub-title">A machine learning tool for phylogenetic model selection</span>
+					<br><br>
+                </div>
+                <div class="col-md-1">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="nav_container">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <ul class="nav navbar-nav" id="menu-nav">
+                    <li class="active">
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="overview.html">Overview</a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a href="gallery.html">Gallery</a>-->
+                    <!--</li>-->
+                    <li>
+                        <a href="https://english.tau.ac.il/" id="tau-link" target="_blank">
+                            <img src=pics/TAU_LOGO.png id="tau-logo">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="behind-nav-bar">
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8" id="basic">
+            <form id="MODELTELLER_form" action="https://modelteller.tau.ac.il/cgi-bin/modelteller_cgi.py" method="post" ENCTYPE="multipart/form-data" target="_blank" onsubmit="return validate_read_files() && validate_lib_file();">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="alignment_file">
+                                File:
+                            </label>
+                            <label class="btn btn-default btn-file">
+                                <input type="file" id="alignment_file" name="alignment_file">
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="alignment_file">
+                                Load a:
+                            </label>
+                            <input type="checkbox" id="checkbox" name="checkbox" data-toggle="toggle" data-on="File" data-off="Raw alignment" onchange="file_or_str()" checked>
+                        </div>
+                    </div>
+
+                   <div class="form-group row">
+                        <div class="col-md-9">
+                            <label for="alignment_str">Raw alignment:</label>
+                            <textarea class="form-control" id="alignment_str" name="alignment_str"  rows="10" cols="30" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-5">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="We'll send you a link to the results" required>
+                            <input class="form-control" name="confirm_email" type="hidden">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="job_title">A descriptive job title</label>
+                            <input type="text" class="form-control" id="job_title" name="job_title" placeholder="(optional)">
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-info" onclick="load_example()">Load an example MSA</button></a>
+                    <button type="reset" class="btn btn-danger">Reset form</button>
+                    <button type="submit" class="btn btn-success">Submit your job</button>
+                    <br><br>
+
+            </form>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+</body>
+</html>
