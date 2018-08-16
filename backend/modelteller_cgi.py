@@ -148,7 +148,7 @@ def run_cgi():
 
     # Send me a notification email every time there's a new request
     send_email(smtp_server=CONSTS.SMTP_SERVER, sender=CONSTS.ADMIN_EMAIL,
-               receiver='shiranos@gmail.com', subject=f'MODELTELLER - A new job has been submitted: {run_number}',
+               receiver='shiranos@gmail.com', subject=f'ModelTeller - A new job has been submitted: {run_number}',
                content=f"{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'cgi_debug.txt')}\n{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'output.html')}")
 
     try:
