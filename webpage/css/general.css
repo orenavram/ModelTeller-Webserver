@@ -34,11 +34,12 @@
     padding-top: 20px;
 }
 
-#overview_container, #gallery_container, #credits_container{
+#overview_container, #download_container, #credits_container{
     /*font-family: 'Kalam';*/
     /*font-family: "Sans";*/
     /*font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;*/
     font-size: 20px;
+    font-family: Ubuntu, sans-serif;
 }
 
 #basic{
@@ -54,11 +55,6 @@
     width: 500px;
 }
 
-#overview_container, #nav_container{
-    font-family: Ubuntu, sans-serif;
-    /*font-family: 'Kalam';*/
-}
-
 #file-button {
     width: 150px;
 }
@@ -72,7 +68,7 @@
 }
 
 #behind-nav-bar{
-    padding: 200px;
+    padding: 10px;
 }
 
 #advanced_button{

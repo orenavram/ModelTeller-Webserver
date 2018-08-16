@@ -9,8 +9,12 @@ from time import time, ctime
 from random import randint
 
 import MODELTELLER_CONSTANTS as CONSTS
-from directory_creator import create_dir
-from email_sender import send_email
+if os.path.exists('/bioseq/modelteller'): #remote run
+    sys.path.append('/bioseq/modelteller/auxiliaries/')
+    sys.path.append('/bioseq/bioSequence_scripts_and_constants/')
+
+from directory_creator import create_dir # from /bioseq/modelteller/auxiliaries/
+from email_sender import send_email # from /bioseq/bioSequence_scripts_and_constants/
 
 def print_hello_world(output_path = '', run_number = 'NO_RUN_NUMBER'):
 
@@ -144,7 +148,7 @@ def run_cgi():
 
     # Send me a notification email every time there's a new request
     send_email(smtp_server=CONSTS.SMTP_SERVER, sender=CONSTS.ADMIN_EMAIL,
-               receiver='orenavram@gmail.com', subject=f'MODELTELLER - A new job has been submitted: {run_number}',
+               receiver='shiranos@gmail.com', subject=f'MODELTELLER - A new job has been submitted: {run_number}',
                content=f"{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'cgi_debug.txt')}\n{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'output.html')}")
 
     try:

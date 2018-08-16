@@ -1,9 +1,12 @@
 import logging
 import os
+import sys
 
 logger = logging.getLogger('main')
 
 import MODELTELLER_CONSTANTS as CONSTS
+if os.path.exists('/bioseq/modelteller'): #remote run
+    sys.path.append('/bioseq/bioSequence_scripts_and_constants/')
 
 def edit_success_html(results_path, output_html_path, run_number):
     with open(output_html_path) as f:
@@ -82,7 +85,7 @@ def post_html_editing(output_html_path):
         f.write(html_content)
 
 
-def edit_results_html(status_ok, results_path, output_html_path, msg, run_number):
+def edit_results_html(status_ok, results_path, output_html_path, run_number='NO_RUN_NUMBER', msg=''):
     if status_ok==True:
         edit_success_html(results_path, output_html_path, run_number)
     else:
@@ -91,7 +94,7 @@ def edit_results_html(status_ok, results_path, output_html_path, msg, run_number
 
 
 def notify_by_email(addressee, status_ok, output_html_path, msg=''):
-    from email_sender import send_email
+    from email_sender import send_email  # from /bioseq/bioSequence_scripts_and_constants/
     if not msg:
         msg = f"{CONSTS.PIPELINE_NAME} pipeline {'FINISHED' if status_ok else 'FAILED'}. Results can be found at {output_html_path}."
     logger.info(msg)

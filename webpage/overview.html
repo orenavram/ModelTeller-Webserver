@@ -32,7 +32,7 @@
 	<!--</script>-->
 </head>
 <body>
-<nav role="navigation" class="navbar navbar-inverse navbar-fixed-top" id="nav">
+<nav role="navigation" class="navbar navbar-inverse" id="nav">
     <div class="jumbotron" id="jumbo">
         <div class="container">
             <div class="row" id="title-row">
@@ -61,9 +61,9 @@
 						<li class="active">
 							<a href="overview.html">Overview</a>
 						</li>
-						<!--<li>-->
-							<!--<a href="gallery.html">Gallery</a>-->
-						<!--</li>-->
+						<li>
+							<a href="download.html">Download</a>
+						</li>
 						<li>
 							<a href="https://english.tau.ac.il/" id="tau-link" target="_blank">
 								<img src=pics/TAU_LOGO.png id="tau-logo">
@@ -101,14 +101,14 @@
 				<h2>Input<br></h2>
 				ModelTeller is implemented in python and accepts as input any alignment file format that is valid in Biopython (listed below). Once you upload the alignment, ModelTeller detects the format and continues the computation:<br><br>
 				<ul>
-				<li><b>clustal</b> - output from Clustal W or X.</li><br>
-				<li><b>emboss</b> - EMBOSS tools' "pairs" and "simple" alignment formats.</li><br>
-				<li><b>fasta</b> - the generic sequence file format where each record starts with an identifier line starting with a ">" character, followed by lines of sequence.</li><br>
-				<li><b>ig</b> - the IntelliGenetics file format, apparently the same as the MASE alignment format.</li><br>
-				<li><b>nexus</b> - output from NEXUS.</li><br>
-				<li><b>phylip/phylip-sequential/phylip-relaxed.</b></li><br>
-				<li><b>stockholm</b> - a richly annotated alignment file format used by PFAM.</li><br>
-				<li><b>mauve</b> - output from progressiveMauve/Mauve.</li><br>
+				<li><b>Clustal</b> - output from Clustal W or X.</li><br>
+				<li><b>Emboss</b> - EMBOSS tools' "pairs" and "simple" alignment formats.</li><br>
+				<li><b>Fasta</b> - the generic sequence file format where each record starts with an identifier line starting with a ">" character, followed by lines of sequence.</li><br>
+				<li><b>Ig</b> - the IntelliGenetics file format, apparently the same as the MASE alignment format.</li><br>
+				<li><b>Mauve</b> - output from progressiveMauve/Mauve.</li><br>
+				<li><b>Nexus</b> - output from NEXUS.</li><br>
+				<li><b>Phylip/phylip-sequential/phylip-relaxed.</b></li><br>
+				<li><b>Stockholm</b> - a richly annotated alignment file format used by PFAM.</li><br>
 				</ul>
 				In case that ModelTeller could not read your input file, it would notify you with an error message.
 				<br><br>
