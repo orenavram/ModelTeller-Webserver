@@ -85,7 +85,7 @@ def write_html_prefix(output_path, run_number):
         f.flush()
 
 
-def write_running_parameters_to_html(output_path, job_title, file_name = ''):
+def write_running_parameters_to_html(output_path, job_title):
     with open(output_path, 'a') as f:
 
         # regular params row
