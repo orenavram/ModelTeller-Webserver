@@ -233,7 +233,7 @@ def run_cgi():
         html_content = html_content.replace('RUNNING', 'FAILED')
         html_content += f'<br><br><br><center><h2><font color="red">{msg}</font><br><br>Please try to re-run your job or <a href="mailto:{CONSTS.ADMIN_EMAIL}?subject={CONSTS.PIPELINE_NAME}%20Run%20Number%20{run_number}">contact us</a> for further information</h2></center><br><br>\n</body>\n</html>\n'
         with open(output_path, 'w') as f:
-            html_content = f.write(html_content)
+            f.write(html_content)
 
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
