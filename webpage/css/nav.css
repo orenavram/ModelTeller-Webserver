@@ -27,6 +27,11 @@ li[name="black_text"]{
     margin-right: 20px;
 }
 
+#under-construction{
+    height: 25%;
+    width: 22%;
+}
+
 #tau-link{
     padding: 0px;
 }

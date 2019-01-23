@@ -78,6 +78,7 @@
         </div>
         <div class="col-md-8" id="basic">
             <form id="MODELTELLER_form" action="https://modelteller.tau.ac.il/cgi-bin/modelteller_cgi.py" method="post" ENCTYPE="multipart/form-data" target="_blank" onsubmit="return validate_read_files() && validate_lib_file();">
+                    <center><img src=pics/under_construction.png id="under-construction"></center><br><br>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="alignment_file">
@@ -143,7 +144,7 @@
                     </div>
                     <button type="button" class="btn btn-info" onclick="load_example()">Load an example MSA</button></a>
                     <button type="reset" class="btn btn-danger">Reset form</button>
-                    <button type="submit" class="btn btn-success">Submit your job</button>
+                    <button type="submit" class="btn btn-success" disabled>Submit your job</button>
                     <br><br>
 
             </form>
