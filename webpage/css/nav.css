@@ -39,3 +39,7 @@ li[name="black_text"]{
 nav ul{
     width: 100%;
 }
+.navbar-fixed-bottom {
+    color: #cccccc;
+    text-align: center;
+}
