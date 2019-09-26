@@ -78,12 +78,12 @@
         </div>
         <div class="col-md-8" id="basic">
             <form id="MODELTELLER_form" action="https://modelteller.tau.ac.il/cgi-bin/modelteller_cgi.py" method="post" ENCTYPE="multipart/form-data" target="_blank" onsubmit="return validate_read_files() && validate_lib_file();">
-                    <center><img src=pics/under_construction.png id="under-construction"></center><br><br>
+                    <!--<center><img src=pics/under_construction.png id="under-construction"></center><br><br>-->
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="alignment_file">
-                                Load an:
-                            <input type="checkbox" id="checkbox" name="checkbox" data-toggle="toggle" data-on="Alignment file" data-off="Alignment as text" onchange="file_or_str()" data-width="150" checked>
+                                Load a nucleotide multiple sequence alignment:
+                            <input type="checkbox" id="checkbox" name="checkbox" data-toggle="toggle" data-on="as a file" data-off="as text" onchange="file_or_str()" data-width="150" checked>
                             <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#lib_info_modal" id="lib_info">&#xe085;</button>
                             </label>
 
@@ -95,7 +95,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h3 class="modal-title">Valid alignments format</h3>
+                                            <h3 class="modal-title">Valid alignment format</h3>
                                         </div>
                                         <div class="modal-body">
                                             <ul>
@@ -105,9 +105,11 @@
                                                 <li><b>Ig</b> - the IntelliGenetics file format, apparently the same as the MASE alignment format.</li><br>
                                                 <li><b>Mauve</b> - output from progressiveMauve/Mauve.</li><br>
                                                 <li><b>Nexus</b> - output from NEXUS.</li><br>
-                                                <li><b>Phylip/phylip-sequential/phylip-relaxed.</b></li><br>
+                                                <li><b>Phylip / phylip-sequential / phylip-relaxed.</b></li><br>
                                                 <li><b>Stockholm</b> - a richly annotated alignment file format used by PFAM.</li><br>
                                             </ul>
+											<b>Several alignments may be uploaded in one file</b>, one after the other, in all formats <u>except for fasta</u>.<br>
+											<b>Ambiguous characters and gaps (-, ., ?, n)</b> will be treated as gaps.
                                         </div>
                                     </div>
                                 </div>
@@ -142,9 +144,9 @@
                             <input type="text" class="form-control" id="job_title" name="job_title" placeholder="(optional)">
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-success"><b>Submit your job</b></button><br><br>
                     <button type="button" class="btn btn-info" onclick="load_example()">Load an example MSA</button></a>
                     <button type="reset" class="btn btn-danger">Reset form</button>
-                    <button type="submit" class="btn btn-success" disabled>Submit your job</button>
                     <br><br><br>
 
             </form>
