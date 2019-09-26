@@ -84,30 +84,36 @@
 			</div>
 			<div class="col-md-8" align="justify">
 				<h2>Phylogenetic  Model  Selection</h2>
-				Model  Selection  is  considered  as  a  mandatory  first  step  for  phylogeny  reconstruction.  Currently,  this  task  is  accomplished  by  computing  the  likelihood  of  every  candidate  model  to  the  data,  and  eventually  selecting  the  best-fitted  one.  However,  this  approach  comes  with  several  problems.  First,  the  requirement  to  compute  the  likelihood  of  every  single  model  in  order  to  get  the  single  best  one  is  highly  time  consuming.  Second,  statistical  model  selection  criteria  are  not  optimized  for  phylogenetics.  Some  criteria,  like  the  AIC  or  the  BIC  assume  independence  of  the  data  particles  (such  as  the  alignment  sites  or  the  nucleotides  within  the  alignment,  which  are  clearly  dependent).  Some,  like  the  hLRT  or  the  AIC  assume  infinite  data  size.  Ultimately,  the  choice  for  the  best  model  is  neither  efficient,  nor  it  is  established.
-				<br><br>
-
+				Phylogenetic Model Selection is considered as a mandatory step for phylogenetic tree reconstruction. <br>
+				The current habit is to compute the likelihood of every candidate model to the data, and eventually select the best-fitted one. However, <br>
+				<ul>
+				<li>Current model selection criteria (e.g., AIC, BIC, hLRT) were not optimized for phylogenetic data</li>
+				<li>They detect the best model for inference but not the best model for accurate phylogenetic reconstruction</li>
+				<li>The computation is extremely long!</li><br>
+				</ul>
 
 				<h2>What is ModelTeller?</h2>
-				ModelTeller is a machine learning algorithm that is trained and optimized to retrieve the nucleotide substitution model that yields the most accurate tree. ModelTeller was trained across 15,000 alignments that were sampled from empirical cases. These range across a wide range of sequence lengths, number of sequences, and sequence divergences. ModelTeller was optimized to predict the model that generates a tree of lowest distance to the true one (in simulations).
+				ModelTeller is a machine learning algorithm that is optimized to predict <b>the nucleotide substitution model that yields the most accurate tree</b>. <br><br>
+				ModelTeller was trained across 11,000 alignments that were sampled from empirical cases. These range across a wide range of sequence lengths, number of sequences, and sequence divergences. ModelTeller was optimized to predict the model that generates a tree of lowest distance to the true one (in simulations).
 				<br><br>
 
 
 				<h2>How to use ModelTeller?</h2>
-				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox. ModelTeller will read your input, compute the relevant features, and report the best model for each of the alignments.
+				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox. 
+				ModelTeller will read your input, compute the relevant features, and report the best and alternative models for each of the alignments.
 				<br><br>
 
 
 				<h2>Input<br></h2>
 				ModelTeller is implemented in python and accepts as input any alignment file format that is valid in Biopython (listed below). Once you upload the alignment, ModelTeller detects the format and continues the computation:<br><br>
 				<ul>
-				<li><b>Clustal</b> - output from Clustal W or X.</li><br>
-				<li><b>Emboss</b> - EMBOSS tools' "pairs" and "simple" alignment formats.</li><br>
-				<li><b>Fasta</b> - the generic sequence file format where each record starts with an identifier line starting with a ">" character, followed by lines of sequence.</li><br>
-				<li><b>Ig</b> - the IntelliGenetics file format, apparently the same as the MASE alignment format.</li><br>
-				<li><b>Mauve</b> - output from progressiveMauve/Mauve.</li><br>
-				<li><b>Nexus</b> - output from NEXUS.</li><br>
-				<li><b>Phylip/phylip-sequential/phylip-relaxed.</b></li><br>
+				<li><b>Clustal</b> - output from Clustal W or X.</li>
+				<li><b>Emboss</b> - EMBOSS tools' "pairs" and "simple" alignment formats.</li>
+				<li><b>Fasta</b> - the generic sequence file format where each record starts with an identifier line starting with a ">" character, followed by lines of sequence. <b>Note that multiple alignments are not acceptable in this format.</b></li>
+				<li><b>Ig</b> - the IntelliGenetics file format, apparently the same as the MASE alignment format.</li>
+				<li><b>Mauve</b> - output from progressiveMauve/Mauve.</li>
+				<li><b>Nexus</b> - output from NEXUS.</li>
+				<li><b>Phylip/phylip-sequential/phylip-relaxed.</b></li>
 				<li><b>Stockholm</b> - a richly annotated alignment file format used by PFAM.</li><br>
 				</ul>
 				In case that ModelTeller could not read your input file, it would notify you with an error message.
@@ -115,31 +121,38 @@
 
 
 				<h2>The substitution models</h2>
-				ModelTeller incorporates 24 nucleotide substitution models. Those include : Jukes and Cantor (JC)[1], Felsenstein 1981 (F81)[2], Kimura two parameters (K2P)[3], Hasegawa-Kishino-Yano (HKY)[4], the generalized symmetrical model (SYM)[5], and General Time Reversible (GTR)[6], combined with the proportion of invariable sites (+I), rate heterogeneity across sites (+G), or both (+I+G).
+				ModelTeller incorporates 24 nucleotide substitution models. Those include: <br>
+				<ul>
+				<li> Jukes and Cantor 1969 (<b>JC</b>)</li>
+				<li> Felsenstein 1981 (<b>F81</b>)</li>
+				<li> Kimura two parameters 1980 (<b>K2P</b>)</li>
+				<li> Hasegawa-Kishino-Yano 1985 (<b>HKY</b>)</li>
+				<li> The generalized symmetrical model, Zharkikh, 1994 (<b>SYM</b>)</li>
+				<li> General Time Reversible, Tavare 1986 (<b>GTR</b>)</li><br>
+				</ul>
+				combined with the proportion of invariable sites (<b>+I</b>), rate heterogeneity across sites (<b>+G</b>), or both (<b>+I+G</b>).
 				<br><br>
 
 
 				<h2>ModelTeller running time</h2>
-				Whereas the statistical methods for phylogenetic reconstruction may take hours or even days of computation, ModelTeller can retrieve results instantly! For a set of 15,000 datasets ModelTeller ran in 9.6 <b>seconds</b> on average, whereas the maximum likelihood approaches ran 12.5 <b>minutes</b> on average.
+				Whereas the statistical methods for phylogenetic reconstruction may take hours or even days of computation, ModelTeller retrieves results instantly! 
 				<br><br>
 
 
 				<h2>ModelTeller accuracy</h2>
-				The computational approach of ModelTeller yields more accurate results than the statistical approaches, as it is optimized to predict the closest tree. The table below shows the average of the topological distance (Robinson-Foulds7) or the branch length distance (Euclidean distance of the branches8) between the reconstructed trees of each method and the true tree across the 15,000 datasets in the training set. The predictions were made with a cross-validation procedure.
-				<br><br>
-				<img src="pics/dist_table.jpg" id="overview_picture">
+				ModelTeller is optimized to retrieve the most accurate phylogenetic tree.
+				The figure below demonstrates ModelTeller's performance compared to AIC, BIC, and using always the most complex model, GTR+I+G.
+				<img src="pics/modtel_accuracy.jpg" id="overview_picture">
+				<br>
+				The y axis represents the true ranks of the selected models by each of the model selection strategies. 
+				The white dots represent the median, the thick gray bars represent the interquartile (IQR) range, and the thin gray lines extend beyond 1.5*the IQR range. 
+				The violin plots represent a kernel density estimation of the underlying distribution of the true rank of the selected models; 
+				wider sections of the violin plot represent a higher probability that the strategy selects models of that rank while skinnier sections represent a lower probability. 
+				
 				<br><br>
 
 
-				<h2>References</h2>
-				[1]	Jukes, T. H. & CANTOR, C. R. in Mammalian Protein Metabolism 21-132 (Academic Press, 1969).<br>
-				[2]	Felsenstein, J. Evolutionary trees from DNA sequences: A maximum likelihood approach. J. Mol. Evol. 17, 368-376 (1981).<br>
-				[3]	Kimura, M. A simple method for estimating evolutionary rates of base substitutions through comparative studies of nucleotide sequences. J. Mol. Evol. 16, 111-120 (1980).<br>
-				[4]	Hasegawa, M., Kishino, H. & Yano, T. aki. Dating of the human-ape splitting by a molecular clock of mitochondrial DNA. J. Mol. Evol. 22, 160-174 (1985).<br>
-				[5]	Zharkikh, A. Estimation of evolutionary distances between nucleotide sequences. J. Mol. Evol. 39, 315-329 (1994).<br>
-				[6]	Tavare, S. in Lectures on Mathematics in the Life Sciences. 17, 57-86 (American Mathematical Society, 1986).<br>
-				[7]	Robinson, D. F. & Foulds, L. R. Comparison of phylogenetic trees. Math. Biosci. 53, 131-147 (1981).<br>
-				[8]	Kuhner, M. K. & Felsenstein, J. A simulation comparison of phylogeny algorithms under equal and unequal evolutionary rates. Mol Biol Evol 11, 459-468 (1994).<br>
+			
 
 				<!--<li><a href="http://www.pnas.org/content/111/6/2259" target="_blank" id="ref1">Lavinder, J. J. et al. <i>Proc Natl Acad Sci USA</i> 111, 2259-2264 (2014).</a></li>-->
 				<!--<br>-->
