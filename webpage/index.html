@@ -77,13 +77,13 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8" id="basic">
-            <form id="MODELTELLER_form" action="https://modelteller.tau.ac.il/cgi-bin/modelteller_cgi.py" method="post" ENCTYPE="multipart/form-data" target="_blank" onsubmit="return validate_read_files() && validate_lib_file();">
+            <form id="MODELTELLER_form" action="https://modelteller.tau.ac.il/cgi-bin/modelteller_cgi.py" method="post" ENCTYPE="multipart/form-data" target="_blank" onsubmit="return validateFields();">
                     <!--<center><img src=pics/under_construction.png id="under-construction"></center><br><br>-->
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <label for="alignment_file">
                                 Load a nucleotide multiple sequence alignment:
-                            <input type="checkbox" id="checkbox" name="checkbox" data-toggle="toggle" data-on="as a file" data-off="as text" onchange="file_or_str()" data-width="150" checked>
+                            <input type="checkbox" id="checkbox" name="checkbox" data-toggle="toggle" data-on="as a file" data-off="as text" onchange="fileOrStr()" data-width="150" checked>
                             <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#lib_info_modal" id="lib_info">&#xe085;</button>
                             </label>
 
@@ -130,7 +130,25 @@
                    <div class="form-group row">
                         <div class="col-md-9">
                             <label for="alignment_str">Alignment as text:</label>
-                            <textarea class="form-control" id="alignment_str" name="alignment_str"  rows="10" cols="30" disabled></textarea>
+                            <textarea class="form-control" id="alignment_str" name="alignment_str" rows="10" cols="30" disabled></textarea>
+                        </div>
+                    </div>
+                   <div class="form-group row">
+                        <div class="col-md-9">
+                            <label>Running mode:</label><br>
+                            <input type="radio" id="running_mode_0" name="running_mode" value="0" onchange="getUserDefinedTopology()"> Select the best model for branch-lengths estimation<br>
+                            <input type="radio" id="running_mode_1" name="running_mode" value="1" onchange="getUserDefinedTopology()"> Use a fixed GTR+I+G topology -- <i>Recommended!</i><br>
+                            <input type="radio" id="running_mode_2" name="running_mode" value="2" onchange="getUserDefinedTopology()"> User defined topology<br>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-5">
+                            <label for="user_defined_topology">
+                                User-defined topology:
+                            </label>
+                            <label class="btn btn-default btn-file btn-block">
+                                <input type="file" id="user_defined_topology" name="user_defined_topology" disabled>
+                            </label>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -145,7 +163,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success"><b>Submit your job</b></button><br><br>
-                    <button type="button" class="btn btn-info" onclick="load_example()">Load an example MSA</button></a>
+                    <button type="button" class="btn btn-info" onclick="loadExample()">Load an example MSA</button></a>
                     <button type="reset" class="btn btn-danger">Reset form</button>
                     <br><br><br>
 
