@@ -32,14 +32,17 @@ function getUserDefinedTopology() {
 
 function validateFields(){
     var loadFile = document.getElementById("checkbox");
+    var fileAlignment = document.getElementById("alignment_file");
     var txtAlignment = document.getElementById("alignment_str");
-    if (loadFile.checked == false && txtAlignment.value == ''){
+    if ((loadFile.checked == true && fileAlignment.value == '') ||
+       (loadFile.checked == false && txtAlignment.value == '')){
         alert("No multiple sequence alignment was provided.");
         return false;
     }
 
     var radio = document.getElementById("running_mode_2");
-    if (radio.checked == true){
+    var userDefinedTree = document.getElementById("user_defined_topology");
+    if (radio.checked == true && userDefinedTree.value == ''){
         alert("No user-defined topology was provided. Please provide a topology or choose a different running mode.");
         return false;
     }
