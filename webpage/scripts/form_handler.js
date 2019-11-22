@@ -40,9 +40,16 @@ function validateFields(){
         return false;
     }
 
-    var radio = document.getElementById("running_mode_2");
+    var radio0 = document.getElementById("running_mode_0");
+    var radio1 = document.getElementById("running_mode_1");
+    var radio2 = document.getElementById("running_mode_2");
+    if (radio0.checked == false && radio1.checked == false && radio2.checked == false){
+        alert("Please choose a running mode.");
+        return false;
+    }
+
     var userDefinedTree = document.getElementById("user_defined_topology");
-    if (radio.checked == true && userDefinedTree.value == ''){
+    if (radio2.checked == true && userDefinedTree.value == ''){
         alert("No user-defined topology was provided. Please provide a topology or choose a different running mode.");
         return false;
     }
