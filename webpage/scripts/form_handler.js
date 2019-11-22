@@ -39,8 +39,8 @@ function validateFields(){
     }
 
     var radio = document.getElementById("running_mode_2");
-        alert("No user-defined topology was provided. Please provide a topology or choose a different running mode.");
     if (radio.checked == true){
+        alert("No user-defined topology was provided. Please provide a topology or choose a different running mode.");
         return false;
     }
     return true;
