@@ -8,7 +8,7 @@ import MODELTELLER_CONSTANTS as CONSTS
 if os.path.exists('/bioseq/modelteller'): #remote run
     sys.path.append('/bioseq/bioSequence_scripts_and_constants/')
 
-def edit_success_html(results_path, output_html_path, header):
+def edit_success_html(results_path, output_html_path, header, i):
     with open(output_html_path) as f:
         html_text = f.read()
 
@@ -35,6 +35,7 @@ def edit_success_html(results_path, output_html_path, header):
                         <font color="red">{results[0]}</font>
                     </h2>
                     <br>
+                    <!--final_tree_path {i}-->
                     <h4>
                         The alternative models are (ranked from second best to worst): 
                     </h4>
@@ -76,7 +77,11 @@ def edit_failure_html(output_html_path, run_number, msg):
         f.flush()
 
 
-def post_html_editing(output_html_path, run_number):
+def post_html_editing(output_html_path):
+
+    # e.g, /bioseq/data/results/modelteller/157457949814305833525824301409/output.html
+    run_number = output_html_path.split('/')[5]
+
     # appending end of html
     with open(output_html_path, 'a') as f:
         f.write(f'<br>\n<h4 class=footer><p align=\'center\'>Questions and comments are welcome! Please <span class="admin_link"><a href="mailto:{CONSTS.ADMIN_EMAIL}?subject={CONSTS.PIPELINE_NAME}%20Run%20Number%20{run_number}">contact us</a></span></p></h4>\n<br>\n')
@@ -93,7 +98,7 @@ def post_html_editing(output_html_path, run_number):
         f.write(html_content)
 
 
-def edit_results_html(status_ok, results_paths, output_html_path, run_number='NO_RUN_NUMBER', msg=''):
+def edit_results_html(status_ok, results_paths, output_html_path, run_number='NO_RUN_NUMBER'):
     if results_paths == []:
         status_ok = False
     if status_ok == False:
@@ -102,11 +107,25 @@ def edit_results_html(status_ok, results_paths, output_html_path, run_number='NO
         edit_failure_html(output_html_path, run_number, f'Results path does not exists!!\n{results_paths[0]}')
     else:
         if len(results_paths) == 1:
-            edit_success_html(results_paths[0], output_html_path, 'Best model for your alignment is')
+            edit_success_html(results_paths[0], output_html_path, 'Best model for your alignment is', 0)
         else:
             for i in range(len(results_paths)):
-                edit_success_html(results_paths[i], output_html_path, f'Best model for alignment number {i+1} is')
-    post_html_editing(output_html_path, run_number)
+                edit_success_html(results_paths[i], output_html_path, f'Best model for alignment number {i+1} is', i)
+    # post_html_editing(output_html_path)
+
+
+def show_final_tree_in_html(tree_path, output_html_path, i=0):
+    with open(output_html_path) as f:
+        html_text = f.read()
+
+    # e.g, /bioseq/data/results/modelteller/157457949814305833525824301409/final_tree.txt
+    run_number, final_tree_name = tree_path.split('/')[5:7]
+
+    html_text = html_text.replace(f'<!--final_tree_path {i}-->',
+            f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{final_tree_name}" target="_blank">final tree</a>')
+    with open(output_html_path, 'w') as f:
+        f.write(html_text)
+
 
 
 def notify_by_email(addressee, status_ok, output_html_path, msg=''):
@@ -122,4 +141,4 @@ if __name__ == '__main__':
     output_html_path = 'output.html'
     print(os.getcwd())
     write_html_prefix(output_html_path, 'debug')
-    edit_results_html(True, [], output_html_path, 'test', 'Job failed :(')
+    edit_results_html(True, [], output_html_path, 'test')
