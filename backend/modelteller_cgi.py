@@ -1,4 +1,4 @@
-#!/data/shared/python/anaconda3-5.1.0/bin/python3.6
+#!/groups/pupko/modules/python-anaconda3.6.5/bin/python
 
 import os
 import sys
@@ -85,6 +85,19 @@ def write_html_prefix(output_path, run_number):
         f.flush()
 
 
+def upload_file(form, form_key_name, file_path, cgi_debug_path):
+    with open(cgi_debug_path, 'a') as f:
+        f.write(f'{"#"*80}\nuploading file\n')
+    filename = form[form_key_name].filename
+    with open(cgi_debug_path, 'a') as f:
+        f.write(f'file name is:\n{filename}\n')
+    content = form[form_key_name].value
+    with open(cgi_debug_path, 'a') as f:
+        f.write(f'{filename} first 100 chars are: {content[:100]}\n')
+    with open(file_path, 'wb') as f:
+        f.write(content)
+
+
 def write_running_parameters_to_html(output_path, job_title):
     with open(output_path, 'a') as f:
 
@@ -108,8 +121,7 @@ def write_cmds_file(cmds_file, run_number, parameters):
     # the queue does not like very long commands so I use a dummy delimiter (!@#) to break the commands for q_submitter
     new_line_delimiter = ';!@#'
     # the code contains features that are exclusive to Python3.6 (or higher)!
-    required_modules = ' '.join(
-        ['python/anaconda_python-3.6.4'])
+    required_modules = ' '.join(['python/python-anaconda3.2019.3'])
     with open(cmds_file, 'w') as f:
         f.write(f'module load {required_modules}')
         f.write(new_line_delimiter)
@@ -146,9 +158,15 @@ def run_cgi():
     print('Content-Type: text/html\n')  # For more details see https://www.w3.org/International/articles/http-charset/index#scripting
     sys.stdout.flush()  # must be flushed immediately!!!
 
-    # Send me a notification email every time there's a new request
+    # email field should ALWAYS exist in the form (even if it's empty!!)
+    # if it's not there, someone sent a request not via the website so they should be blocked.
+    # confirm_email is hidden field that only spammer bots might fill in...
+    if 'email' not in form or ('confirm_email' in form and form['confirm_email'].value != ''):
+        exit()
+
+    # uncomment to send the admin a notification email EVERY time there's a new request
     send_email(smtp_server=CONSTS.SMTP_SERVER, sender=CONSTS.ADMIN_EMAIL,
-               receiver='shiranos@gmail.com', subject=f'ModelTeller - A new job has been submitted: {run_number}',
+               receiver='orenavram@gmail.com', subject=f'ModelTeller - A new job has been submitted: {run_number}',
                content=f"{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'cgi_debug.txt')}\n{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'output.html')}")
 
     try:
@@ -166,7 +184,7 @@ def run_cgi():
                 if 'alignment' not in key:
                     f.write(f'{key} = {form[key]}\n')
             for key in sorted_form_keys:
-                if 'alignment' in key:
+                if 'alignment' in key or 'topology' in key:
                     f.write(f'100 first characters of {key} = {form[key].value[:100]}\n')
             f.write('\n\n')
 
@@ -187,34 +205,28 @@ def run_cgi():
             with open(msa_path, 'w') as f:
                 f.write(form['alignment_str'].value)
         else:
-            with open(cgi_debug_path, 'a') as f:
-                f.write(f'{"#"*80}\nuploading msa file\n')
-
-            filename = form['alignment_file'].filename
-            with open(cgi_debug_path, 'a') as f:
-                f.write(f'file name is:\n{filename}')# (of type {type(form[run + "_R1"].value)}) and {run_R2_filename} (of type {type(form[run + "_R2"].value)})\n')
-
-            msa = form['alignment_file'].value
-            with open(cgi_debug_path, 'a') as f:
-                f.write(f'{filename} first 100 chars are: {msa[:100]}\n')
-
-            with open(msa_path, 'wb') as f:
-                f.write(msa)
+            upload_file(form, 'alignment_file', msa_path, cgi_debug_path)
 
         with open(cgi_debug_path, 'a') as f:
-            f.write(f'msa was saved to disk successfully\n')
+            f.write(f'msa was saved to disk successfully\n\n')
 
-        parameters = f'-m {msa_path} -j {run_number}'
+        running_mode = form['running_mode'].value
+        if running_mode == '2':
+            user_defined_topology_path = os.path.join(wd, 'user_defined_topology.txt')
+            upload_file(form, 'user_defined_topology', user_defined_topology_path, cgi_debug_path)
+            running_mode += f' -u {user_defined_topology_path}'
+
+        parameters = f'-m {msa_path} -j {run_number} -p {running_mode}'
 
         cmds_file = os.path.join(wd, 'qsub.cmds')
         write_cmds_file(cmds_file, run_number, parameters)
 
         log_file = cmds_file.replace('cmds', 'log')
         # complex command with more than one operation (module load + python q_submitter.py)
-        # submission_cmd = 'ssh bioseq@lecs2login "module load python/anaconda_python-3.6.4; python /bioseq/bioSequence_scripts_and_constants/q_submitter.py {} {} -q {} --verbose > {}"'.format(cmds_file, wd, queue_name, log_file)
+        # submission_cmd = 'ssh bioseq@powerlogin "module load python/anaconda_python-3.6.4; /bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_file} {wd} -q {CONSTS.QUEUE_NAME} --verbose > {log_file}"'
 
         # simple command when using shebang header
-        submission_cmd = f'ssh bioseq@lecs2login /bioseq/bioSequence_scripts_and_constants/q_submitter.py {cmds_file} {wd} -q bioseq --verbose > {log_file}'
+        submission_cmd = f'ssh bioseq@powerlogin /bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_file} {wd} -q {CONSTS.QUEUE_NAME} --verbose > {log_file}'
 
         write_to_debug_file(cgi_debug_path, f'\nSSHing and SUBMITting the JOB to the QUEUE:\n{submission_cmd}\n')
 

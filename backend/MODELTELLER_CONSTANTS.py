@@ -3,9 +3,10 @@
 import os
 
 # constants to use when sending e-mails using the server admin's email address.
-ADMIN_EMAIL = 'evolseq@mail.tau.ac.il'
+ADMIN_EMAIL = 'evolseq@mail.tau.ac.il' #'orenavram@gmail.com' #'shiranos@gmail.com' 'evolseq@mail.tau.ac.il'
 SMTP_SERVER = 'mxout.tau.ac.il'
 
+QUEUE_NAME = 'lifesciweb'
 PIPELINE_NAME = 'ModelTeller'
 
 # general paths
@@ -19,13 +20,14 @@ MODELTELLER_URL = 'https://modelteller.tau.ac.il'
 RELOAD_INTERVAL = 30
 RELOAD_TAGS = f'<META HTTP-EQUIV="REFRESH" CONTENT="{RELOAD_INTERVAL}"/>'
 
+HR_STYLE = 'style="height:1px;border:none;color:#333;background-color:#333;"'
 
 MODELTELLER_RESULTS_DIR = os.path.join(SERVERS_RESULTS_DIR, 'modelteller')
 MODELTELLER_LOGS_DIR = os.path.join(SERVERS_LOGS_DIR, 'modelteller')
 MODELTELLER_RESULTS_URL = os.path.join(MODELTELLER_URL, 'results')
 MODELTELLER_HTML_DIR = '/data/www/html/modelteller'
-MODELTELLER_EXEC = '/bioseq/modelteller'
+MODELTELLER_EXEC = '/groups/itay_mayrose/shiranabad/MsMl/modelteller_online/'
 
-MAIN_SCRIPT = os.path.join(MODELTELLER_EXEC, 'online_code/main.py')
+MAIN_SCRIPT = os.path.join(MODELTELLER_EXEC, 'main.py')
 
-
+RESULT_MSG = 'Unresolved error'
