@@ -260,7 +260,7 @@ def run_cgi():
             html_content = f.read()
         html_content = html_content.replace(CONSTS.RELOAD_TAGS, '')
         with open(output_path, 'w') as f:
-            html_content = f.write(html_content)
+            f.write(html_content)
 
 if __name__ == '__main__':
     run_cgi()
