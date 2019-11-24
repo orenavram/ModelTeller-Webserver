@@ -125,7 +125,7 @@ def write_cmds_file(cmds_file, run_number, parameters):
     with open(cmds_file, 'w') as f:
         f.write(f'module load {required_modules}')
         f.write(new_line_delimiter)
-        f.write(f'{" ".join(["python", CONSTS.MAIN_SCRIPT, parameters])}\tMT{run_number}') # MT stands for Model Teller
+        f.write(f'{" ".join(["python", CONSTS.MAIN_SCRIPT, parameters])}\tmodelteller{run_number}\n') # MT stands for Model Teller
 
 def run_cgi():
 
@@ -181,11 +181,11 @@ def run_cgi():
             f.write(f'These are the keys that the CGI received:\n{"; ".join(sorted_form_keys)}\n\n')
             f.write('Form values are:\n')
             for key in sorted_form_keys:
-                if 'alignment' not in key:
-                    f.write(f'{key} = {form[key]}\n')
-            for key in sorted_form_keys:
                 if 'alignment' in key or 'topology' in key:
+                    # avoid writing the whole file
                     f.write(f'100 first characters of {key} = {form[key].value[:100]}\n')
+                else:
+                    f.write(f'{key} = {form[key]}\n')
             f.write('\n\n')
 
         # extract form's values:

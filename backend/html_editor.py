@@ -98,11 +98,11 @@ def post_html_editing(output_html_path):
         f.write(html_content)
 
 
-def edit_results_html(status_ok, results_paths, output_html_path, run_number='NO_RUN_NUMBER'):
+def edit_results_html(status_ok, results_paths, output_html_path, run_number='NO_RUN_NUMBER', msg=''):
     if results_paths == []:
         status_ok = False
-    if status_ok == False:
-        edit_failure_html(output_html_path, run_number, CONSTS.RESULT_MSG)
+    if not status_ok:
+        edit_failure_html(output_html_path, run_number, CONSTS.RESULT_MSG if not msg else msg)
     if not os.path.exists(results_paths[0]): # sanity check that the first path exists
         edit_failure_html(output_html_path, run_number, f'Results path does not exists!!\n{results_paths[0]}')
     else:
@@ -141,4 +141,4 @@ if __name__ == '__main__':
     output_html_path = 'output.html'
     print(os.getcwd())
     write_html_prefix(output_html_path, 'debug')
-    edit_results_html(True, [], output_html_path, 'test')
+    edit_results_html(True, [], output_html_path, 'test', 'Job failed :(')
