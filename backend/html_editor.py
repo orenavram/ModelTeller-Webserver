@@ -103,7 +103,7 @@ def edit_results_html(status_ok, results_paths, output_html_path, run_number='NO
         status_ok = False
     if not status_ok:
         edit_failure_html(output_html_path, run_number, CONSTS.RESULT_MSG if not msg else msg)
-    if not os.path.exists(results_paths[0]): # sanity check that the first path exists
+    elif not os.path.exists(results_paths[0]): # sanity check that the first path exists
         edit_failure_html(output_html_path, run_number, f'Results path does not exists!!\n{results_paths[0]}')
     else:
         if len(results_paths) == 1:
