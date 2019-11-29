@@ -78,7 +78,7 @@ def write_html_prefix(output_path, run_number):
     </nav>
     <div id="behind-nav-bar-results">
     </div>
-<br><div class="container" style="width: 700px" align="justify"> 
+<br><div class="container" style="{CONSTS.CONTAINER_STYLE}" align="justify"> 
 <H1 align=center>Job Status - <FONT color='red'>RUNNING</FONT></h1>
 <br>ModelTeller is now processing your request. This page will be automatically updated every {CONSTS.RELOAD_INTERVAL} seconds (until the job is done). You can also reload it manually. Once the job has finished, the output will appear below. A link to this page was sent to your email in case you wish to view these results at a later time without recalculating them. Please note that the results will be kept in the server for 3 months.
 <br><br></div>''')
@@ -86,30 +86,49 @@ def write_html_prefix(output_path, run_number):
 
 
 def upload_file(form, form_key_name, file_path, cgi_debug_path):
-    with open(cgi_debug_path, 'a') as f:
-        f.write(f'{"#"*80}\nuploading file\n')
+    write_to_debug_file(cgi_debug_path, f'{"#"*80}\nuploading file\n')
     filename = form[form_key_name].filename
-    with open(cgi_debug_path, 'a') as f:
-        f.write(f'file name is:\n{filename}\n')
+    write_to_debug_file(cgi_debug_path, f'file name is:\n{filename}\n')
     content = form[form_key_name].value
-    with open(cgi_debug_path, 'a') as f:
-        f.write(f'{filename} first 100 chars are: {content[:100]}\n')
+    write_to_debug_file(cgi_debug_path, f'{filename} first 100 chars are: {content[:100]}\n')
     with open(file_path, 'wb') as f:
         f.write(content)
 
 
-def write_running_parameters_to_html(output_path, job_title):
+def write_running_parameters_to_html(output_path, job_title, msa_name, running_mode, user_defined_topology):
     with open(output_path, 'a') as f:
 
         # regular params row
-        f.write("""<div class="container">""")
+        f.write(f"""<div class="container" style="{CONSTS.CONTAINER_STYLE}">""")
 
         f.write('<div class="row" style="font-size: 20px;">')
+        f.write('<div class="col-md-12">')
+        f.write(f'<b>Alignment: </b>{msa_name if msa_name else "Raw text"}')
+        f.write('</div></div>')
+
+        if running_mode == '0':
+            running_mode = 'Select the best model for branch-lengths estimation'
+        elif running_mode == '1':
+            running_mode = 'Use a fixed GTR+I+G topology (This may take a little longer because ModelTeller first computes the maximum-likelihood phylogeny according to the GTR+I+G model. But once a model is predicted, computation of the resulting phylogeny will be rapid.)'
+        else:
+            running_mode = 'User defined topology'
+
+        f.write('<div class="row" style="font-size: 20px;">')
+        f.write('<div class="col-md-12">')
+        f.write(f'<b>Running mode: </b>{running_mode}')
+        f.write('</div></div>')
+
+        if user_defined_topology != '':
+            f.write('<div class="row" style="font-size: 20px;">')
+            f.write('<div class="col-md-12">')
+            f.write(f'<b>User defined topology: </b>{user_defined_topology}')
+            f.write('</div></div>')
+
         if job_title != '':
-            f.write('<div class="col-md-6">')
-            f.write(f'<b>Job title: </b>{job_title}<br><br>')
-            f.write('</div>')
-            f.write('</div><div class="row" style="font-size: 20px;">')
+            f.write('<div class="row" style="font-size: 20px;">')
+            f.write('<div class="col-md-12">')
+            f.write(f'<b>Job title: </b>{job_title}')
+            f.write('</div></div>')
 
         # f.write('<div class="col-md-3">')
         # f.write(f'<b>MSA: </b>{file_name if file_name else "Raw alignment"}')
@@ -171,8 +190,7 @@ def run_cgi():
 
     try:
         if form['email'].value != '':
-            with open(cgi_debug_path, 'a') as f:
-                f.write(f"{form['email'].value.strip()}\n\n")
+            write_to_debug_file(cgi_debug_path, f"{form['email'].value.strip()}\n\n")
 
         with open(cgi_debug_path, 'a') as f:
             # for debugging
@@ -200,21 +218,26 @@ def run_cgi():
 
         msa_path = os.path.join(wd, 'data.fas')
         if 'alignment_str' in form:
-            with open(cgi_debug_path, 'a') as f:
-                f.write(f'{"#"*80}\nmsa is raw\n')
+            write_to_debug_file(cgi_debug_path, f'{"#"*80}\nmsa is raw\n')
             with open(msa_path, 'w') as f:
                 f.write(form['alignment_str'].value)
         else:
             upload_file(form, 'alignment_file', msa_path, cgi_debug_path)
 
-        with open(cgi_debug_path, 'a') as f:
-            f.write(f'msa was saved to disk successfully\n\n')
+        write_to_debug_file(cgi_debug_path, f'msa was saved to disk successfully\n\n')
 
         running_mode = form['running_mode'].value
         if running_mode == '2':
             user_defined_topology_path = os.path.join(wd, 'user_defined_topology.txt')
             upload_file(form, 'user_defined_topology', user_defined_topology_path, cgi_debug_path)
             running_mode += f' -u {user_defined_topology_path}'
+
+        msa_name = '' if 'alignment_str' in form else form['alignment_file'].filename
+        user_defined_topology = '' if form['running_mode'].value != '2' else form['user_defined_topology'].filename
+
+        write_running_parameters_to_html(output_path, job_title, msa_name, running_mode, user_defined_topology)
+        write_to_debug_file(cgi_debug_path, f'{ctime()}: Running parameters were written to html successfully.\n')
+
 
         parameters = f'-m {msa_path} -j {run_number} -p {running_mode}'
 

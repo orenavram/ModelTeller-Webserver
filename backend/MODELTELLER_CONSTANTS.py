@@ -31,3 +31,6 @@ MODELTELLER_EXEC = '/groups/itay_mayrose/shiranabad/MsMl/modelteller_online/'
 MAIN_SCRIPT = os.path.join(MODELTELLER_EXEC, 'main.py')
 
 RESULT_MSG = 'Unresolved error'
+
+CONTAINER_WIDTH = 'width: 700px'
+CONTAINER_STYLE = f'{CONTAINER_WIDTH}'
