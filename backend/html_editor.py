@@ -33,9 +33,9 @@ def edit_success_html(results_path, output_html_path, header, i):
                     <h2>
                         {header}:\n<br><br>\n
                         <font color="red">{results[0]}</font>
+                    <!--final_tree_path {i}-->
                     </h2>
                     <br>
-                    <!--final_tree_path {i}-->
                     <h4>
                         The alternative models are (ranked from second best to worst): 
                     </h4>
@@ -122,7 +122,10 @@ def show_final_tree_in_html(tree_path, output_html_path, i=0):
     run_number, final_tree_name = tree_path.split('/')[5:7]
 
     html_text = html_text.replace(f'<!--final_tree_path {i}-->',
-            f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{final_tree_name}" target="_blank">final tree</a>')
+            f'<br><br>'
+            f'And '
+            f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{final_tree_name}" target="_blank">this</a> '
+            f'is its corresponding ML tree')
     with open(output_html_path, 'w') as f:
         f.write(html_text)
 
