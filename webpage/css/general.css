@@ -91,6 +91,14 @@ td h3{
     outline: none;
 }
 
-#lib_info_modal{
+#msa_info_modal{
     font-size: 18px;
+}
+
+#running_mode_info_modal{
+    font-size: 18px;
+}
+
+#running_mode_info{
+    padding-left: 0px;
 }

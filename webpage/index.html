@@ -84,11 +84,11 @@
                             <label for="alignment_file">
                                 Load a nucleotide multiple sequence alignment:
                             <input type="checkbox" id="checkbox" name="checkbox" data-toggle="toggle" data-on="as a file" data-off="as text" onchange="fileOrStr()" data-width="150" checked>
-                            <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#lib_info_modal" id="lib_info">&#xe085;</button>
+                            <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#msa_info_modal" id="lib_info">&#xe085;</button>
                             </label>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="lib_info_modal" role="dialog">
+                            <div class="modal fade" id="msa_info_modal" role="dialog">
                                 <div class="modal-dialog">
 
                                     <!-- Modal content-->
@@ -126,17 +126,16 @@
                             </label>
                         </div>
                     </div>
-
-                   <div class="form-group row">
+                    <div class="form-group row">
                         <div class="col-md-9">
                             <label for="alignment_str">Alignment as text:</label>
                             <textarea class="form-control" id="alignment_str" name="alignment_str" rows="10" cols="30" disabled></textarea>
                         </div>
                     </div>
-                   <div class="form-group row">
+                    <div class="form-group row">
                         <div class="col-md-9">
                             <label>Running mode:</label>
-                            <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#lib_info_modal2" id="lib_info">&#xe085;</button><br><br>
+                            <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#running_mode_info_modal" id="running_mode_info">&#xe085;</button><br><br>
                             <input type="radio" id="running_mode_0" name="running_mode" value="0" onchange="getUserDefinedTopology()"> Select the best model for branch-lengths estimation<br>
                             <input type="radio" id="running_mode_1" name="running_mode" value="1" onchange="getUserDefinedTopology()"> Use a fixed GTR+I+G topology -- <i>Recommended!</i><br>
                             <input type="radio" id="running_mode_2" name="running_mode" value="2" onchange="getUserDefinedTopology()"> User defined topology<br>
@@ -144,7 +143,7 @@
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="lib_info_modal2" role="dialog">
+                    <div class="modal fade" id="running_mode_info_modal" role="dialog">
                         <div class="modal-dialog">
 
                             <!-- Modal content-->
