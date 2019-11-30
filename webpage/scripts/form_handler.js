@@ -15,6 +15,8 @@ function fileOrStr() {
     document.getElementById("alignment_file").disabled = true;
     document.getElementById("alignment_str").disabled = false;
     document.getElementById("alignment_file").value = '';
+    document.getElementById("running_mode_0").checked = true;
+    getUserDefinedTopology();
   }
 }
 
