@@ -14,6 +14,7 @@ def edit_success_html(results_path, output_html_path, header, i):
 
     html_text = html_text.replace('RUNNING', 'FINISHED')
     html_text = html_text.replace(f'ModelTeller is now processing your request. This page will be automatically updated every 30 seconds (until the job is done). You can also reload it manually. Once the job has finished, the output will appear below. ', '')
+    html_text = html_text.replace(f' (this may take a little longer because ModelTeller first computes the maximum-likelihood phylogeny according to the GTR+I+G model, but, once a model is predicted, computation of the resulting phylogeny will be rapid)', '')
 
     results = []
     with open(results_path) as f:
@@ -34,6 +35,7 @@ def edit_success_html(results_path, output_html_path, header, i):
                         {header}:\n<br><br>\n
                         <font color="red">{results[0]}</font>
                     <!--final_tree_path {i}-->
+                    <br><br>The maximum-likelihood tree for your input data using the above model is now being computed...
                     </h2>
                     <br>
                     <h4>
@@ -126,6 +128,7 @@ def show_final_tree_in_html(tree_path, output_html_path, i=0):
             f'And '
             f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{final_tree_name}" target="_blank">this</a> '
             f'is its corresponding ML tree')
+    html_text = html_text.replace('<br><br>The maximum-likelihood tree for your input data using the above model is now being computed...', '')
     with open(output_html_path, 'w') as f:
         f.write(html_text)
 

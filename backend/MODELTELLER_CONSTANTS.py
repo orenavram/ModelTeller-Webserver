@@ -13,7 +13,8 @@ PIPELINE_NAME = 'ModelTeller'
 SERVERS_RESULTS_DIR = '/bioseq/data/results'
 SERVERS_LOGS_DIR = '/bioseq/data/logs'
 
-MODELTELLER_URL = 'https://modelteller.tau.ac.il'
+WEBSERVER_NAME = 'ModelTeller'
+WEBSERVER_URL = 'https://modelteller.tau.ac.il'
 #MODELTELLER_LOG = '/bioseq/modelteller/MODELTELLER_runs.log'
 #APACHE_ERROR_LOG = '/var/log/httpd/modelteller.error_log'
 
@@ -24,7 +25,7 @@ HR_STYLE = 'style="height:1px;border:none;color:#333;background-color:#333;"'
 
 MODELTELLER_RESULTS_DIR = os.path.join(SERVERS_RESULTS_DIR, 'modelteller')
 MODELTELLER_LOGS_DIR = os.path.join(SERVERS_LOGS_DIR, 'modelteller')
-MODELTELLER_RESULTS_URL = os.path.join(MODELTELLER_URL, 'results')
+MODELTELLER_RESULTS_URL = os.path.join(WEBSERVER_URL, 'results')
 MODELTELLER_HTML_DIR = '/data/www/html/modelteller'
 MODELTELLER_EXEC = '/groups/itay_mayrose/shiranabad/MsMl/modelteller_online/'
 

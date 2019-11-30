@@ -47,7 +47,7 @@ def write_html_prefix(output_path, run_number):
     {CONSTS.RELOAD_TAGS}
 
     <title>ModelTeller Job #{run_number}</title>
-    <link rel="shortcut icon" type="image/x-icon" href="{CONSTS.MODELTELLER_URL}/pics/logo.gif" />
+    <link rel="shortcut icon" type="image/x-icon" href="{CONSTS.WEBSERVER_URL}/pics/logo.gif" />
 
     <meta charset="utf-8">
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
@@ -56,7 +56,7 @@ def write_html_prefix(output_path, run_number):
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css">
 
-    <link rel="stylesheet" href="{CONSTS.MODELTELLER_URL}/css/general.css">
+    <link rel="stylesheet" href="{CONSTS.WEBSERVER_URL}/css/general.css">
     <link rel="stylesheet" href="../webpage/css/general.css">
 
     </head><body>
@@ -68,7 +68,7 @@ def write_html_prefix(output_path, run_number):
                     </div>
                     <div class="col-md-10" align="center">
                         <span id="server-title">ModelTeller</span><br>
-                        <img src="{CONSTS.MODELTELLER_URL}/pics/logo.gif" id="nav_bar_image" style="height: 120px;"><br>
+                        <img src="{CONSTS.WEBSERVER_URL}/pics/logo.gif" id="nav_bar_image" style="height: 120px;"><br>
                         <span id="sub-title">A machine learning tool for phylogenetic model selection</span>
                         <br><br>
                     </div>
@@ -95,34 +95,11 @@ def upload_file(form, form_key_name, file_path, cgi_debug_path):
         f.write(content)
 
 
-def write_running_parameters_to_html(output_path, job_title, msa_name, running_mode, user_defined_topology):
+def write_running_parameters_to_html(output_path, job_title, msa_name, running_mode):
     with open(output_path, 'a') as f:
 
         # regular params row
         f.write(f"""<div class="container" style="{CONSTS.CONTAINER_STYLE}">""")
-
-        f.write('<div class="row" style="font-size: 20px;">')
-        f.write('<div class="col-md-12">')
-        f.write(f'<b>Alignment: </b>{msa_name if msa_name else "Raw text"}')
-        f.write('</div></div>')
-
-        if running_mode == '0':
-            running_mode = 'Select the best model for branch-lengths estimation'
-        elif running_mode == '1':
-            running_mode = 'Use a fixed GTR+I+G topology (This may take a little longer because ModelTeller first computes the maximum-likelihood phylogeny according to the GTR+I+G model. But once a model is predicted, computation of the resulting phylogeny will be rapid.)'
-        else:
-            running_mode = 'User defined topology'
-
-        f.write('<div class="row" style="font-size: 20px;">')
-        f.write('<div class="col-md-12">')
-        f.write(f'<b>Running mode: </b>{running_mode}')
-        f.write('</div></div>')
-
-        if user_defined_topology != '':
-            f.write('<div class="row" style="font-size: 20px;">')
-            f.write('<div class="col-md-12">')
-            f.write(f'<b>User defined topology: </b>{user_defined_topology}')
-            f.write('</div></div>')
 
         if job_title != '':
             f.write('<div class="row" style="font-size: 20px;">')
@@ -130,9 +107,16 @@ def write_running_parameters_to_html(output_path, job_title, msa_name, running_m
             f.write(f'<b>Job title: </b>{job_title}')
             f.write('</div></div>')
 
-        # f.write('<div class="col-md-3">')
-        # f.write(f'<b>MSA: </b>{file_name if file_name else "Raw alignment"}')
-        # f.write('</div>')
+        f.write('<div class="row" style="font-size: 20px;">')
+        f.write('<div class="col-md-12">')
+        f.write(f'<b>Alignment: </b>{msa_name if msa_name else "Raw text"}')
+        f.write('</div></div>')
+
+        f.write('<div class="row" style="font-size: 20px;">')
+        f.write('<div class="col-md-12">')
+        f.write(f'<b>Running mode: </b>{running_mode}')
+        f.write('</div></div>')
+
         f.write('</div><br>')
 
 
@@ -186,7 +170,7 @@ def run_cgi():
     # uncomment to send the admin a notification email EVERY time there's a new request
     send_email(smtp_server=CONSTS.SMTP_SERVER, sender=CONSTS.ADMIN_EMAIL,
                receiver='orenavram@gmail.com', subject=f'ModelTeller - A new job has been submitted: {run_number}',
-               content=f"{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'cgi_debug.txt')}\n{os.path.join(CONSTS.MODELTELLER_URL, 'results', run_number, 'output.html')}")
+               content=f"{os.path.join(CONSTS.WEBSERVER_URL, 'results', run_number, 'cgi_debug.txt')}\n{os.path.join(CONSTS.WEBSERVER_URL, 'results', run_number, 'output.html')}")
 
     try:
         if form['email'].value != '':
@@ -226,20 +210,28 @@ def run_cgi():
 
         write_to_debug_file(cgi_debug_path, f'msa was saved to disk successfully\n\n')
 
-        running_mode = form['running_mode'].value
-        if running_mode == '2':
+        running_mode_code = form['running_mode'].value
+        if running_mode_code == '2':
             user_defined_topology_path = os.path.join(wd, 'user_defined_topology.txt')
             upload_file(form, 'user_defined_topology', user_defined_topology_path, cgi_debug_path)
-            running_mode += f' -u {user_defined_topology_path}'
+            running_mode_code += f' -u {user_defined_topology_path}'
 
+
+        # human readable parameters for results page and confirmation email
         msa_name = '' if 'alignment_str' in form else form['alignment_file'].filename
-        user_defined_topology = '' if form['running_mode'].value != '2' else form['user_defined_topology'].filename
+        user_defined_topology = form['user_defined_topology'].filename if running_mode_code.startswith('2') else ''
+        if running_mode_code == '0':
+            running_mode = 'Select the best model for branch-lengths estimation'
+        elif running_mode_code == '1':
+            running_mode = 'Use a fixed GTR+I+G topology (this may take a little longer because ModelTeller first computes the maximum-likelihood phylogeny according to the GTR+I+G model, but, once a model is predicted, computation of the resulting phylogeny will be rapid)'
+        else:
+            running_mode = f'User defined topology (with {user_defined_topology})'
 
-        write_running_parameters_to_html(output_path, job_title, msa_name, running_mode, user_defined_topology)
+        write_running_parameters_to_html(output_path, job_title, msa_name, running_mode)
         write_to_debug_file(cgi_debug_path, f'{ctime()}: Running parameters were written to html successfully.\n')
 
 
-        parameters = f'-m {msa_path} -j {run_number} -p {running_mode}'
+        parameters = f'-m {msa_path} -j {run_number} -p {running_mode_code}'
 
         cmds_file = os.path.join(wd, 'qsub.cmds')
         write_cmds_file(cmds_file, run_number, parameters)
@@ -256,8 +248,23 @@ def run_cgi():
         subprocess.call(submission_cmd, shell=True)
 
         if user_email != '':
-            with open(os.path.join(wd, 'user_email.txt'), 'w') as f:
-                f.write(f'{user_email}\n')
+            with open(os.path.join(wd, 'user_email.txt'), 'w') as f_email:
+                f_email.write(f'{user_email}\n')
+
+            notification_content = f"Your submission configuration is:\n\n"
+            if job_title:
+                notification_content += f"Job title: {job_title}\n"
+            notification_content += f"Alignment: {msa_name}\n" \
+                                   f"Running mode: {running_mode}\n" \
+                                   f"Once the analysis will be ready, we will let you know! " \
+                                   f"Meanwhile, you can track the progress of your job at:\n{os.path.join(CONSTS.WEBSERVER_URL, 'results', run_number, 'output.html')}\n\n"
+
+            # Send the user a notification email for their submission
+            send_email(smtp_server=CONSTS.SMTP_SERVER,
+                       sender=CONSTS.ADMIN_EMAIL,
+                       receiver=f'{user_email}',
+                       subject=f'{CONSTS.WEBSERVER_NAME} - Your job has been submitted!{" (Job name: "+str(job_title) if job_title else ""})',
+                       content=notification_content)
 
         write_to_debug_file(cgi_debug_path, f'\n\n{"#"*50}\nCGI finished running!\n{"#"*50}\n')
 
