@@ -77,24 +77,15 @@
 			<div class="col-md-2">
 			</div>
 			<div class="col-md-8" align="justify">
-				<h2>Phylogenetic  Model  Selection</h2>
-				Phylogenetic Model Selection is considered as a mandatory step for phylogenetic tree reconstruction. <br>
-				The current habit is to compute the likelihood of every candidate model to the data, and eventually select the best-fitted one. However, <br>
-				<ul>
-				<li>Current model selection criteria (e.g., AIC, BIC, hLRT) were not optimized for phylogenetic data</li>
-				<li>They detect the best model for inference but not the best model for accurate phylogenetic reconstruction</li>
-				<li>The computation is extremely long!</li><br>
-				</ul>
-
 				<h2>What is ModelTeller?</h2>
-				ModelTeller is a machine learning algorithm that is optimized to predict <b>the nucleotide substitution model that yields the most accurate tree</b>. <br><br>
-				ModelTeller was trained across 11,000 alignments that were sampled from empirical cases. These range across a wide range of sequence lengths, number of sequences, and sequence divergences. ModelTeller was optimized to predict the model that generates a tree of lowest distance to the true one (in simulations).
+				ModelTeller is a machine learning algorithm that is optimized to predict <b>the nucleotide substitution model that yields the most accurate branch-lengths estimates</b>. <br><br>
+				ModelTeller was trained across ~11,000 alignments that range over a wide range of empirical properties, therefore it is suitable for many relevant datasets.
 				<br><br>
-
 
 				<h2>How to use ModelTeller?</h2>
 				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox. 
 				ModelTeller will read your input, compute the relevant features, and report the best and alternative models for each of the alignments.
+				Following the prediction of the best model, ModelTeller computes the maximum-likelihood tree for the selected model and your input data.
 				<br><br>
 
 
@@ -112,10 +103,18 @@
 				</ul>
 				In case that ModelTeller could not read your input file, it would notify you with an error message.
 				<br><br>
+				
+				<h2>Running modes<br></h2>
+				<ul>
+				<li><b>Select the best model for branch-lengths estimation</b> - this option will rapidly select a single model for maximum-likelihood phylogeny reconstruction. The maximum-likelihood phylogeny, i.e., the model parameters, the branch-lengths, and the topology will be optimized for you after the model is predicted.</li>
+				<li><b>Use a fixed GTR+I+G topology</b> - this option will first optimized the GTR+I+G phylogeny and then predict the optimal model for branch-length estimation. The maximum-likelihood phylogeny will be optimized given the GTR+I+G fixed topology. Prediction of the best model might take a little while due to the preliminary GTR+I+G phylogeny reconstruction, but the final tree will be computed rapidly. This procedure was demonstrated to perform best both for topologies and branch-length estimation accuracies on complex simulation models.</li>
+				<li><b>User defined topology</b> - if you have a good, validated topology for your data, please provide it and ModelTeller will predict the best model for branch-length estimation. The maximum-likelihood phylogeny will be computed for you given your fixed topology. In case you provided multiple alignments, multiple trees should be provided in the input file, each in a separate line. The input tree should be in Newick format and the IDs of the tips must match the IDs in the sequence alignment.</li>
+				</ul>
+				<br><br><br><br><br><br><br><br>
 
 
 				<h2>The substitution models</h2>
-				ModelTeller incorporates 24 nucleotide substitution models. Those include: <br>
+				ModelTeller will return the best model, and the ranking of alternative models among the following 24 nucleotide substitution models: <br>
 				<ul>
 				<li> Jukes and Cantor 1969 (<b>JC</b>)</li>
 				<li> Felsenstein 1981 (<b>F81</b>)</li>
@@ -128,39 +127,24 @@
 				<br><br>
 
 
-				<h2>ModelTeller running time</h2>
-				Whereas the statistical methods for phylogenetic reconstruction may take hours or even days of computation, ModelTeller retrieves results instantly! 
+				<h2>Running time</h2>
+				Whereas the statistical methods for phylogenetic reconstruction may take hours or even days of computation, ModelTeller retrieves results instantly! <br>
+				Computation of the maximum-likelihood tree is done by PhyML after the best model is predicted and might take a little longer.
 				<br><br>
 
 
 				<h2>ModelTeller accuracy</h2>
-				ModelTeller is optimized to retrieve the most accurate phylogenetic tree.
+				ModelTeller is optimized to retrieve the model that generates the most accurate branch-length estimates.
 				The figure below demonstrates ModelTeller's performance compared to AIC, BIC, and using always the most complex model, GTR+I+G.
 				<img src="pics/modtel_accuracy.jpg" id="overview_picture">
 				<br>
 				The y axis represents the true ranks of the selected models by each of the model selection strategies. 
-				The white dots represent the median, the thick gray bars represent the interquartile (IQR) range, and the thin gray lines extend beyond 1.5*the IQR range. 
+				The white dots represent the median, the thick grey bars represent the interquartile (IQR) range, and the thin gray lines extend beyond 1.5*the IQR range. 
 				The violin plots represent a kernel density estimation of the underlying distribution of the true rank of the selected models; 
 				wider sections of the violin plot represent a higher probability that the strategy selects models of that rank while skinnier sections represent a lower probability. 
 				
 				<br><br>
 
-
-			
-
-				<!--<li><a href="http://www.pnas.org/content/111/6/2259" target="_blank" id="ref1">Lavinder, J. J. et al. <i>Proc Natl Acad Sci USA</i> 111, 2259-2264 (2014).</a></li>-->
-				<!--<br>-->
-				<!--<li><a href="http://www.pnas.org/content/110/8/2993" target="_blank" id="ref2">Wine, Y. et al. <i>Proc Natl Acad Sci USA</i> 110, 2993-2998 (2013).</a></li>-->
-				<!--<br>-->
-				<!--<li><a href="http://www.nature.com/articles/nbt.2782" target="_blank" id="ref3">Georgiou, G. et al. <i>Nat Biotech</i> 32, 158-168 (2014).</a></li>-->
-				<!--<br>-->
-				<!--<li><a href="https://www.sciencedirect.com/science/article/pii/S1074761300000066" target="_blank" id="ref4">Xu, J. L. et al. <i>Immunity</i> 13, 37-45 (2000).</a></li>-->
-				<!--<br>-->
-				<!--<li><a href="https://www.ncbi.nlm.nih.gov/books/NBK10757/" target="_blank" id="ref5">Murphy, K. et al. <i>Janeway's immunobiology</i>.  (Garland Science, 2012).</a></li>-->
-				<!--<br>-->
-				<!--<li><a href="https://academic.oup.com/nar/article/27/1/209/1234872" target="_blank" id="ref6">Lefranc, M.-P. et al. <i>Nucleic Acids Research</i> 27, 209-212 (1999).</a></li>-->
-				<!--<br>-->
-				<!--<li><a href="https://www.nature.com/articles/nmeth.3364" target="_blank" id="ref7">Bolotin, D. A. et al. <i>Nature Methods</i> 12, 380 (2015).</a></li>-->
 				<br><br>
 
 
