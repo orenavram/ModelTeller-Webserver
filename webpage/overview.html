@@ -36,7 +36,12 @@
                     <span id="server-title">ModelTeller</span><br>
                     <img src="pics/logo.gif" id="nav_bar_image" class="img-rounded"><br>
                     <span id="sub-title">A machine learning tool for phylogenetic model selection</span>
-					<br><br>
+					<br>
+					<span id="research-site">
+					Research Site | <a href="https://m.tau.ac.il/~itaymay/index.html" target="_blank" style="color: inherit">Mayrose Group</a>
+					</span>
+					<br>
+					<br>
                 </div>
             </div>
             <div class="col-md-1">
@@ -78,11 +83,9 @@
 			</div>
 			<div class="col-md-8" align="justify">
 				<h2>What is ModelTeller?</h2>
-				ModelTeller is a machine learning algorithm that is optimized to predict <b>the nucleotide substitution model that yields the most accurate branch-lengths estimates</b>. <br><br>
-				ModelTeller was trained across ~11,000 alignments that range over a wide range of empirical properties, therefore it is suitable for many relevant datasets.
-				<br><br>
-
-				<h2>How to use ModelTeller?</h2>
+				ModelTeller is a machine learning algorithm optimized to predict <b>the nucleotide substitution model that yields the most accurate branch-lengths estimates</b>. <br><br>
+				ModelTeller was trained on thousands of datasets that range over a wide range of empirical properties, therefore it is suitable for many relevant datasets.
+				<br>
 				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox. 
 				ModelTeller will read your input, compute the relevant features, and report the best and alternative models for each of the alignments.
 				Following the prediction of the best model, ModelTeller computes the maximum-likelihood tree for the selected model and your input data.
@@ -101,7 +104,7 @@
 				<li><b>Phylip/phylip-sequential/phylip-relaxed.</b></li>
 				<li><b>Stockholm</b> - a richly annotated alignment file format used by PFAM.</li><br>
 				</ul>
-				In case that ModelTeller could not read your input file, it would notify you with an error message.
+				Only nucleotide sequences are valid. In case that ModelTeller could not read your input file, it would notify you with an error message.
 				<br><br>
 				
 				<h2>Running modes<br></h2>
@@ -135,7 +138,7 @@
 
 				<h2>ModelTeller accuracy</h2>
 				ModelTeller is optimized to retrieve the model that generates the most accurate branch-length estimates.
-				The figure below demonstrates ModelTeller's performance compared to AIC, BIC, and using always the most complex model, GTR+I+G.
+				The figure below demonstrates ModelTeller's performance compared to AIC, BIC, and using the most complex model, GTR+I+G, consistently.
 				<img src="pics/modtel_accuracy.jpg" id="overview_picture">
 				<br>
 				The y axis represents the true ranks of the selected models by each of the model selection strategies. 
@@ -144,7 +147,6 @@
 				wider sections of the violin plot represent a higher probability that the strategy selects models of that rank while skinnier sections represent a lower probability. 
 				
 				<br><br>
-
 				<br><br>
 
 
