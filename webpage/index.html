@@ -78,12 +78,24 @@
     <div id="behind-nav-bar">
     </div>
     <div class="container">
+
         <div class="row">
             <div class="col-md-2">
             </div>
             <div class="col-md-8" id="basic">
+                <div id="short_description">
+                ModelTeller extracts features from the input MSA and predicts the best substitution model for phylogenetic reconstruction,
+                    with emphasis on <b>branch-lengths accuracy!</b><br>
+                Possible nucleotide models: JC, F81, K2P/K80, HKY, SYM, and GTR -- all with an additional parameter for the proportion of invariable sites (+I), rate-heterogeneity across sites sampled from the gamma distribution (+G), both (+I+G), or none.<br>
+                <u>Output:</u><br>
+                <ul>
+                    1. The <b>best predicted model</b> and the ranking of alternative models, in case that you cannot use the best model.<br>
+                    2. The <b>maximum-likelihood tree</b>, reconstructed using the best model.<br>
+                </ul>
+            </div>
                 <form id="MODELTELLER_form" action="https://modelteller.tau.ac.il/cgi-bin/modelteller_cgi.py" method="post" ENCTYPE="multipart/form-data" target="_blank" onsubmit="return validateFields();">
                     <!--<center><img src=pics/under_construction.png id="under-construction"></center><br><br>-->
+
                     <div class="form-group row">
                         <div class="col-md-8">
                             <label for="alignment_file">
@@ -140,10 +152,10 @@
                     <div class="form-group row">
                         <div class="col-md-9">
                             <label>Running mode:</label>
-                            <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#running_mode_info_modal" id="running_mode_info">&#xe085;</button><br><br>
+                            <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#running_mode_info_modal" id="running_mode_info">&#xe085;</button><br>
                             <input type="radio" id="running_mode_0" name="running_mode" value="0" onchange="getUserDefinedTopology()"> Select the best model for branch-lengths estimation<br>
                             <input type="radio" id="running_mode_1" name="running_mode" value="1" onchange="getUserDefinedTopology()"> Use a fixed GTR+I+G topology -- <i>Recommended!</i><br>
-                            <input type="radio" id="running_mode_2" name="running_mode" value="2" onchange="getUserDefinedTopology()"> User defined topology<br>
+                            <input type="radio" id="running_mode_2" name="running_mode" value="2" onchange="getUserDefinedTopology()"> Use a user defined topology<br>
                         </div>
                     </div>
 
@@ -161,17 +173,17 @@
                                     <ul>
                                         <li><b>Select the best model for branch-lengths estimation</b> - this option will rapidly select a single model for maximum-likelihood phylogeny reconstruction. The maximum-likelihood phylogeny, i.e., the model parameters, the branch-lengths, and the topology will be optimized for you after the model is predicted.</li><br>
                                         <li><b>Use a fixed GTR+I+G topology</b> - this option will first optimized the GTR+I+G phylogeny and then predict the optimal model for branch-length estimation. The maximum-likelihood phylogeny will be optimized given the GTR+I+G fixed topology. Prediction of the best model might take a little while due to the preliminary GTR+I+G phylogeny reconstruction, but the final tree will be computed rapidly.<b> This procedure was demonstrated to perform best both for topologies and branch-length estimation accuracies on complex simulation models.</b></li><br>
-                                        <li><b>User defined topology</b> - if you have a good, validated topology for your data, please provide it and ModelTeller will predict the best model for branch-length estimation. The maximum-likelihood phylogeny will be computed for you given your fixed topology.</li><br>
+                                        <li><b>Use a user defined topology</b> - if you have a good, validated topology for your data, please provide it and ModelTeller will predict the best model for branch-length estimation. The maximum-likelihood phylogeny will be computed for you given your fixed topology.</li><br>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-md-5">
+                    <div class="form-group row" id="user_defined_topology_block" hidden="hidden">
+                        <div class="col-md-8">
                             <label for="user_defined_topology">
-                                User-defined topology:
+                                Upload a tree to be used as the fixed topology (Newick format):
                             </label>
                             <label class="btn btn-default btn-file btn-block">
                                 <input type="file" id="user_defined_topology" name="user_defined_topology" disabled>
@@ -189,8 +201,9 @@
                             <input type="text" class="form-control" id="job_title" name="job_title" placeholder="(optional)">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;<b>Submit your job</b></button><br><br>
-                    <button type="button" class="btn btn-info" onclick="loadExample()">Load an example MSA</button></a>
+                    <br>
+                    <button type="submit" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;<b>Predict the best model!</b></button><br><br>
+                    <button type="button" class="btn btn-info" onclick="loadExample()">Load an example MSA</button>
                     <button type="reset" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Reset form</button>
                     <br><br><br>
 
