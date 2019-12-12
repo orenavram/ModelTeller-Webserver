@@ -26,9 +26,11 @@ function getUserDefinedTopology() {
   if (radio.checked == true){
     document.getElementById("user_defined_topology").disabled = false;
     document.getElementById("user_defined_topology").value = '';
+    document.getElementById("user_defined_topology_block").style.display = 'block';
   } else {
     document.getElementById("user_defined_topology").disabled = true;
     document.getElementById("user_defined_topology").value = '';
+    document.getElementById("user_defined_topology_block").style.display = 'none';
   }
 }
 

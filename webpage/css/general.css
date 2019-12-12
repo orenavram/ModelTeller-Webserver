@@ -46,10 +46,19 @@
     font-family: Ubuntu, sans-serif;
 }
 
+#short_description{
+    /*font-family: 'Kalam';*/
+    /*font-family: "Sans";*/
+    /*font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    font-size: 18px;
+    font-family: Ubuntu, sans-serif;
+    line-height: 1.6;
+}
+
 #basic{
     /*font-family: 'Kalam';*/
     /*font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;*/
-    font-size: 20px;
+    font-size: 18px;
 }
 
 #overview_picture{
