@@ -125,9 +125,9 @@ def show_final_tree_in_html(tree_path, output_html_path, i=0):
 
     html_text = html_text.replace(f'<!--final_tree_path {i}-->',
             f'<br><br>'
-            f'And '
-            f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{final_tree_name}" target="_blank">this</a> '
-            f'is its corresponding ML tree')
+            f'Click '
+            f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{final_tree_name}" target="_blank">here</a> '
+            f'for its corresponding ML tree')
     html_text = html_text.replace('<br><br>The maximum-likelihood tree for your input data using the above model is now being computed...', '')
     with open(output_html_path, 'w') as f:
         f.write(html_text)
