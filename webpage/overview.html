@@ -82,25 +82,25 @@
 			<div class="col-md-2">
 			</div>
 			<div class="col-md-8" align="justify">
-				<a href="#what_is_modelteller">What is ModelTeller?</a><br>
-				<a href="#input">Input</a><br>
-				<a href="#Running_modes">Running modes</a><br>
-				<a href="#output">Output</a><br>
-				<a href="#substitution_models">The substitution models</a><br>
-				<a href="#Running time">Running time</a><br>
-				<a href="#ModelTeller accuracy">ModelTeller accuracy</a><br>
+				ModelTeller Q&As:
+				<a href="#what_is_modelteller">What is it?</a> |
+				<a href="#input">What is the input?</a> |
+				<a href="#Running_modes">What running modes are available?</a> |
+				<a href="#output">What is the output?</a> |
+				<a href="#substitution_models">Which substitution models does it use?</a> |
+				<a href="#Running time">What is its running time?</a> |
+				<a href="#ModelTeller accuracy">How accurate is it?</a>
 
-				<h2><a name="what_is_modelteller">What is ModelTeller?</a></h2>
+				<h2><div id="what_is_modelteller">What is ModelTeller?</div></h2>
 				ModelTeller is a machine learning algorithm optimized to predict <b>the nucleotide substitution model that yields the most accurate branch-lengths estimates</b>. <br><br>
 				ModelTeller was trained on thousands of datasets that range over a wide range of empirical properties.
-				<br>
-				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox. 
+				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox.
 				ModelTeller will read your input, compute the relevant features, and report the best and alternative models for each of the alignments.
 				Following the prediction of the best model, ModelTeller computes the maximum-likelihood tree for the selected model and your input data.
 				<br><br>
 
 
-				<h2><a name="input">Input</a></h2>
+				<h2><div id="input">Input</div></h2>
 				ModelTeller is implemented in python and accepts as input any alignment file format that is valid in Biopython (listed below). Once you upload the alignment, ModelTeller detects the format and continues the computation:<br><br>
 				<ul>
 				<li><b>Clustal</b> - output from Clustal W or X.</li>
@@ -115,7 +115,7 @@
 				Only nucleotide sequences are valid. In case that ModelTeller could not read your input file, it would notify you with an error message.
 				<br><br>
 				
-				<h2><a name="Running_modes">Running modes</a></h2>
+				<h2><div id="Running_modes">Running modes</div></h2>
 				<ul>
 				<li><b>Select the best model for branch-lengths estimation</b> - this option will rapidly select a single model for maximum-likelihood phylogeny reconstruction. The maximum-likelihood phylogeny, i.e., the model parameters, the branch-lengths, and the topology will be optimized for you after the model is predicted.</li>
 				<li><b>Use a fixed GTR+I+G topology</b> - this option will first optimized the GTR+I+G phylogeny and then predict the optimal model for branch-length estimation. The maximum-likelihood phylogeny will be optimized given the GTR+I+G fixed topology. Prediction of the best model might take a little while due to the preliminary GTR+I+G phylogeny reconstruction, but the final tree will be computed rapidly. This procedure was demonstrated to perform best both for topologies and branch-length estimation accuracies on complex simulation models.</li>
@@ -123,14 +123,14 @@
 				</ul>
 				<br><br><br><br><br><br><br><br>
 
-				<h2><a name="output">Output</a></h2>
+				<h2><div id="output">Output</div></h2>
                 <ul>
                     1. The <b>best predicted model</b> and the ranking of alternative models, in case that you cannot use the best model in a downstream application.<br>
                     2. The <b>maximum-likelihood tree</b>, reconstructed using the best model.<br>
                 </ul>
 				<br>
 
-				<h2><a name="substitution_models">The substitution models</a></h2>
+				<h2><div id="substitution_models">The substitution models</div></h2>
 				ModelTeller will return the best model, and the ranking of alternative models among the following 24 nucleotide substitution models: <br>
 				<ul>
 				<li> Jukes and Cantor 1969 (<b>JC</b>)</li>
@@ -144,13 +144,13 @@
 				<br><br>
 
 
-				<h2><a name="Running time">Running time</a></h2>
-				Whereas the statistical methods for phylogenetic reconstruction may take hours or even days of computation, ModelTeller retrieves results instantly! <br>
+				<h2><div id="Running time">Running time</div></h2>
+				Whereas the statistical methods for phylogenetic reconstruction may take hours or even days of computation, ModelTeller retrieves results instantly!
 				Computation of the maximum-likelihood tree is done by PhyML after the best model is predicted and might take a little longer.
 				<br><br>
 
 
-				<h2><a name="ModelTeller accuracy">ModelTeller accuracy</a></h2>
+				<h2><div id="ModelTeller accuracy">ModelTeller accuracy</div></h2>
 				ModelTeller is optimized to retrieve the model that generates the most accurate branch-length estimates.
 				The figure below demonstrates ModelTeller's performance compared to AIC, BIC, and using the most complex model, GTR+I+G, consistently.
 				<img src="pics/modtel_accuracy.jpg" id="overview_picture">
@@ -160,6 +160,7 @@
 				The violin plots represent a kernel density estimation of the underlying distribution of the true rank of the selected models; 
 				wider sections of the violin plot represent a higher probability that the strategy selects models of that rank while skinnier sections represent a lower probability. 
 				
+				<br><br>
 				<br><br>
 				<br><br>
 
