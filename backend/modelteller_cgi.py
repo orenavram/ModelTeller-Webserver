@@ -99,7 +99,7 @@ def write_running_parameters_to_html(output_path, job_title, msa_name, running_m
     with open(output_path, 'a') as f:
 
         # regular params row
-        f.write(f"""<div class="container" style="{CONSTS.CONTAINER_STYLE}">""")
+        f.write(f"""<div class="container" style="{CONSTS.CONTAINER_STYLE}" align="justify">""")
 
         if job_title != '':
             f.write('<div class="row" style="font-size: 20px;">')
