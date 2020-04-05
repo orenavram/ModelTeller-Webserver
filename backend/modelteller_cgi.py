@@ -197,6 +197,11 @@ def run_cgi():
         if form['job_title'].value != '':
             job_title = form['job_title'].value.strip()
 
+        features_contribution = '0'
+        if 'features_contribution' in form:
+            # form['features_contribution'].value.strip() == 'on'
+            features_contribution = '1'
+
         # This is hidden field that only spammer bots might fill in...
         confirm_email_add = form['confirm_email'].value  # if it is contain a value it is a spammer.
 
@@ -231,7 +236,7 @@ def run_cgi():
         write_to_debug_file(cgi_debug_path, f'{ctime()}: Running parameters were written to html successfully.\n')
 
 
-        parameters = f'-m {msa_path} -j {run_number} -p {running_mode_code}'
+        parameters = f'-m {msa_path} -j {run_number} -p {running_mode_code} -f {features_contribution}'
 
         cmds_file = os.path.join(wd, 'qsub.cmds')
         write_cmds_file(cmds_file, run_number, parameters)
