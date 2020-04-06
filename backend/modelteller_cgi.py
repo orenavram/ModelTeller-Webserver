@@ -95,7 +95,7 @@ def upload_file(form, form_key_name, file_path, cgi_debug_path):
         f.write(content)
 
 
-def write_running_parameters_to_html(output_path, job_title, msa_name, running_mode):
+def write_running_parameters_to_html(output_path, job_title, msa_name, running_mode, features_contributions_as_text):
     with open(output_path, 'a') as f:
 
         # regular params row
@@ -109,12 +109,17 @@ def write_running_parameters_to_html(output_path, job_title, msa_name, running_m
 
         f.write('<div class="row" style="font-size: 20px;">')
         f.write('<div class="col-md-12">')
-        f.write(f'<b>Alignment: </b>{msa_name if msa_name else "Raw text"}')
+        f.write(f'<b>Alignment: </b>{msa_name}')
         f.write('</div></div>')
 
         f.write('<div class="row" style="font-size: 20px;">')
         f.write('<div class="col-md-12">')
         f.write(f'<b>Running mode: </b>{running_mode}')
+        f.write('</div></div>')
+
+        f.write('<div class="row" style="font-size: 20px;">')
+        f.write('<div class="col-md-12">')
+        f.write(f'<b>Compute features contributions: </b>{features_contributions_as_text}')
         f.write('</div></div>')
 
         f.write('</div><br>')
@@ -197,10 +202,11 @@ def run_cgi():
         if form['job_title'].value != '':
             job_title = form['job_title'].value.strip()
 
-        features_contribution = '0'
-        if 'features_contribution' in form:
-            # form['features_contribution'].value.strip() == 'on'
-            features_contribution = '1'
+        features_contributions = 0
+        if 'features_contributions' in form:
+            # form['features_contributions'].value.strip() == '
+            features_contributions = 1
+        features_contributions_as_text = "Yes" * features_contributions + "No" * (1 - features_contributions)
 
         # This is hidden field that only spammer bots might fill in...
         confirm_email_add = form['confirm_email'].value  # if it is contain a value it is a spammer.
@@ -223,7 +229,7 @@ def run_cgi():
 
 
         # human readable parameters for results page and confirmation email
-        msa_name = '' if 'alignment_str' in form else form['alignment_file'].filename
+        msa_name = 'Raw text' if 'alignment_str' in form else form['alignment_file'].filename
         user_defined_topology = form['user_defined_topology'].filename if running_mode_code.startswith('2') else ''
         if running_mode_code == '0':
             running_mode = 'Select the best model for branch-lengths estimation'
@@ -232,11 +238,11 @@ def run_cgi():
         else:
             running_mode = f'User defined topology (with {user_defined_topology})'
 
-        write_running_parameters_to_html(output_path, job_title, msa_name, running_mode)
+        write_running_parameters_to_html(output_path, job_title, msa_name, running_mode, features_contributions_as_text)
         write_to_debug_file(cgi_debug_path, f'{ctime()}: Running parameters were written to html successfully.\n')
 
 
-        parameters = f'-m {msa_path} -j {run_number} -p {running_mode_code} -f {features_contribution}'
+        parameters = f'-m {msa_path} -j {run_number} -p {running_mode_code} -f {features_contributions}'
 
         cmds_file = os.path.join(wd, 'qsub.cmds')
         write_cmds_file(cmds_file, run_number, parameters)
@@ -258,11 +264,12 @@ def run_cgi():
 
             notification_content = f"Your submission configuration is:\n\n"
             if job_title:
-                notification_content += f"Job title: {job_title}\n"
-            notification_content += f"Alignment: {msa_name}\n" \
-                                   f"Running mode: {running_mode}\n" \
-                                   f"Once the analysis will be ready, we will let you know! " \
-                                   f"Meanwhile, you can track the progress of your job at:\n{os.path.join(CONSTS.WEBSERVER_URL, 'results', run_number, 'output.html')}\n\n"
+                notification_content += f'Job title: {job_title}\n'
+            notification_content += f'Alignment: {msa_name}\n' \
+                                    f'Running mode: {running_mode}\n' \
+                                    f'Compute features contributions: {features_contributions_as_text}\n' \
+                                    f'Once the analysis will be ready, we will let you know! ' \
+                                    f'Meanwhile, you can track the progress of your job at:\n{os.path.join(CONSTS.WEBSERVER_URL, "results", run_number, "output.html")}\n\n'
 
             # Send the user a notification email for their submission
             send_email(smtp_server=CONSTS.SMTP_SERVER,

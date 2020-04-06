@@ -36,6 +36,7 @@ def edit_success_html(results_path, output_html_path, header, i):
                         <font color="red">{results[0]}</font>
                     <!--final_tree_path {i}-->
                     <br><br>The maximum-likelihood tree for your input data using the above model is now being computed...
+                    <!--features_contributions-->
                     </h2>
                     <br>
                     <h4>
@@ -129,6 +130,22 @@ def show_final_tree_in_html(tree_path, output_html_path, i=0):
             f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{final_tree_name}" target="_blank">here</a> '
             f'for its corresponding ML tree')
     html_text = html_text.replace('<br><br>The maximum-likelihood tree for your input data using the above model is now being computed...', '')
+    with open(output_html_path, 'w') as f:
+        f.write(html_text)
+
+
+def show_features_contribution_in_html(features_contributions_path, output_html_path):
+    with open(output_html_path) as f:
+        html_text = f.read()
+
+    # e.g, /bioseq/data/results/modelteller/157457949814305833525824301409/feature_contribution.csv
+    run_number, features_contributions_file_name = features_contributions_path.split('/')[5:7]
+
+    html_text = html_text.replace('<!--features_contributions-->',
+            f'<br><br>'
+            f'Click '
+            f'<a href="{CONSTS.MODELTELLER_RESULTS_URL}/{run_number}/{features_contributions_file_name}" target="_blank">here</a> '
+            f'for the models features contributions')
     with open(output_html_path, 'w') as f:
         f.write(html_text)
 
