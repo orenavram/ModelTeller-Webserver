@@ -83,50 +83,73 @@
 			</div>
 			<div class="col-md-8" align="justify">
 				ModelTeller Q&As:
-				<a href="#what_is_modelteller">What is it?</a> |
+				<a href="#what_is_modelteller">What is ModelTeller?</a> |
 				<a href="#input">What is the input?</a> |
-				<a href="#Running_modes">What running modes are available?</a> |
+				<a href="#Running_modes">Which running mode to use?</a> |
 				<a href="#output">What is the output?</a> |
-				<a href="#substitution_models">Which substitution models does it use?</a> |
-				<a href="#Running time">What is its running time?</a> |
-				<a href="#ModelTeller accuracy">How accurate is it?</a>
+				<a href="#substitution_models">What are the candidate models?</a> |
+				<a href="#Running time">What about running time?</a> |
+				<a href="#ModelTeller accuracy">Is it accurate??</a>
+				<br><br>
 
 				<h2><div id="what_is_modelteller">What is ModelTeller?</div></h2>
-				ModelTeller is a machine learning algorithm optimized to predict <b>the nucleotide substitution model that yields the most accurate branch-lengths estimates</b>. <br><br>
-				ModelTeller was trained on thousands of datasets that range over a wide range of empirical properties.
+				ModelTeller is a machine-learning algorithm optimized to predict <b>the nucleotide substitution model that yields the most accurate <u>branch-length estimates</u></b>. <br><br>
+				ModelTeller is implemented using a Random Forest algorithm, trained on
+				thousands of datasets that range over a wide range of empirical properties.
+				In the implementation of ModelTeller, the propensity of every
+				<a href="#substitution_models">substituion model</a> is computed and given as an
+				<a href="#output">output</a>.
 				All you need to do is upload the alignment or multiple consecutive alignments within a file or inside the textbox.
 				ModelTeller will read your input, compute the relevant features, and report the best and alternative models for each of the alignments.
 				Following the prediction of the best model, ModelTeller computes the maximum-likelihood tree for the selected model and your input data.
+				<br><br><img src="pics/modelteller_flowchart.jpg" id="modelteller_flowchart" width="700">
+				<br><br>
+				<font size="3"><i><b>A schematic flowchart of the data and procedures applied for the study of ModelTeller.</b>
+				The black solid arrows represent the computational pipeline and the dashed grey arrows represent
+				a prediction scheme, either cross-validation or validation procedures.
+				Given an empirical sequence database, we first computed the optimized parameters for each of
+				<a href="#substitution_models">the 24 nucleotide substituion model</a>. Given these parameters, simulations were made to generate the training/validation data and informative features were extracted from the simulated alignments.
+					The features of the training set were used to train
+				ModelTeller and assess its performance in cross-validation. The features of the validation
+				set were used for assessing the predictions of ModelTeller. The asterisk represents procedures
+				that were done once for the analysis of <a href="#ModelTeller_option">ModelTeller</a> and once for <a href="#ModelTeller_G_option">ModelTeller<sub>G</sub></a>:
+				for ModelTeller, the features were computed over a quick reconstruction of a BioNJ tree;
+					for ModelTeller<sub>G</sub>, the GTR+I+G tree was first optimized, and the features were
+				computed over this tree. The training and prediction were made according to the relevant sets
+					of features. <a href="#ModelTeller accuracy">Click here for a quick view of the results!</a></i></font>
 				<br><br>
 
 
-				<h2><div id="input">Input</div></h2>
-				ModelTeller is implemented in python and accepts as input any alignment file format that is valid in Biopython (listed below). Once you upload the alignment, ModelTeller detects the format and continues the computation:<br><br>
+				<h2><div id="input">Input sequence data</div></h2>
+				Upload the alignment or multiple consecutive alignments within a file or inside the textbox.
+				Acceptable input can be any alignment file format that is valid in Biopython (listed below):<br><br>
 				<ul>
 				<li><b>Clustal</b> - output from Clustal W or X.</li>
 				<li><b>Emboss</b> - EMBOSS tools' "pairs" and "simple" alignment formats.</li>
-				<li><b>Fasta</b> - the generic sequence file format where each record starts with an identifier line starting with a ">" character, followed by lines of sequence. <b>Note that multiple alignments are not acceptable in this format.</b></li>
+				<li><b>Fasta</b> - the generic sequence file format where each record starts with an identifier line starting with a ">" character, followed by lines of sequence. <u>Note that multiple alignments are not acceptable in this format.</u></li>
 				<li><b>Ig</b> - the IntelliGenetics file format, apparently the same as the MASE alignment format.</li>
 				<li><b>Mauve</b> - output from progressiveMauve/Mauve.</li>
 				<li><b>Nexus</b> - output from NEXUS.</li>
 				<li><b>Phylip/phylip-sequential/phylip-relaxed.</b></li>
 				<li><b>Stockholm</b> - a richly annotated alignment file format used by PFAM.</li><br>
 				</ul>
-				Only nucleotide sequences are valid. In case that ModelTeller could not read your input file, it would notify you with an error message.
+				Once you upload the alignment, ModelTeller detects the format and continues the computation.<br>
+				Only nucleotide sequences are valid. In case that ModelTeller could not read your input file, it would notify you with an appropriate error message.
 				<br><br>
 				
 				<h2><div id="Running_modes">Running modes</div></h2>
 				<ul>
-				<li><b>Select the best model for branch-lengths estimation</b> - this option will rapidly select a single model for maximum-likelihood phylogeny reconstruction. The maximum-likelihood phylogeny, i.e., the model parameters, the branch-lengths, and the topology will be optimized for you after the model is predicted.</li>
-				<li><b>Use a fixed GTR+I+G topology</b> - this option will first optimized the GTR+I+G phylogeny and then predict the optimal model for branch-length estimation. The maximum-likelihood phylogeny will be optimized given the GTR+I+G fixed topology. Prediction of the best model might take a little while due to the preliminary GTR+I+G phylogeny reconstruction, but the final tree will be computed rapidly. This procedure was demonstrated to perform best both for topologies and branch-length estimation accuracies on complex simulation models.</li>
+				<li id="ModelTeller_option"><b>Select the best model for branch-lengths estimation (ModelTeller)</b> - this option will rapidly select a single model for maximum-likelihood phylogeny reconstruction. The maximum-likelihood phylogeny, i.e., the model parameters, the branch-lengths, and the topology will be optimized for you after the model is predicted.</li><br>
+					<li id="ModelTeller_G_option"><b>Use a fixed GTR+I+G topology (ModelTeller<sub>G</sub>)</b> - this option will first optimize the GTR+I+G phylogeny and then predict the optimal model for branch-length estimation. The maximum-likelihood phylogeny will be optimized given the GTR+I+G fixed topology. Prediction of the best model might take a little while due to the preliminary GTR+I+G phylogeny reconstruction, but the final tree will be computed rapidly. This procedure was demonstrated to perform best both for topologies and branch-length estimation accuracies on complex simulation models.</li><br>
 				<li><b>User defined topology</b> - if you have a good, validated topology for your data, please provide it and ModelTeller will predict the best model for branch-length estimation. The maximum-likelihood phylogeny will be computed for you given your fixed topology. In case you provided multiple alignments, multiple trees should be provided in the input file, each in a separate line. The input tree should be in Newick format and the IDs of the tips must match the IDs in the sequence alignment.</li>
 				</ul>
 				<br><br><br><br><br><br><br><br>
 
 				<h2><div id="output">Output</div></h2>
                 <ul>
-                    1. The <b>best predicted model</b> and the ranking of alternative models, in case that you cannot use the best model in a downstream application.<br>
-                    2. The <b>maximum-likelihood tree</b>, reconstructed using the best model.<br>
+                    1. The <b>best predicted model</b> and the ranking of alternative models, in case that you cannot use the best model in a downstream application.<br><br>
+                    2. The <b>maximum-likelihood tree</b>, reconstructed using the best model.<br><br>
+					3. Interested in the features that led to this prediction? If you check the <b>"Compute features contribution"</b> checkbox, a csv file will be available for download after the tree is computed. Each entry in the file represents the weight of a single feature in computing the probability of choosing one model, as extracted from the paths along the Random Forest implementation.<br>
                 </ul>
 				<br>
 
@@ -151,16 +174,24 @@
 
 
 				<h2><div id="ModelTeller accuracy">ModelTeller accuracy</div></h2>
-				ModelTeller is optimized to retrieve the model that generates the most accurate branch-length estimates.
-				The figure below demonstrates ModelTeller's performance compared to AIC, BIC, and using the most complex model, GTR+I+G, consistently.
-				<img src="pics/modtel_accuracy.jpg" id="overview_picture">
+				ModelTeller is optimized to retrieve the model that generates the most accurate branch-length estimates. ModelTeller was examined both in cross-validation on the training set <i>T<sub>1</sub></i> and on the validation set, <i>V</i>.
+				The figures below demonstrate ModelTeller's performance compared to AIC, BIC, using the most complex model, GTR+I+G, consistently, and selecting a model at random for each dataset.
+				<img src="pics/modelteller_violinplots.jpg" id="accuracy_img" width="750">
 				<br>
-				The y axis represents the true ranks of the selected models by each of the model selection strategies. 
-				The white dots represent the median, the thick grey bars represent the interquartile (IQR) range, and the thin gray lines extend beyond 1.5*the IQR range. 
-				The violin plots represent a kernel density estimation of the underlying distribution of the true rank of the selected models; 
-				wider sections of the violin plot represent a higher probability that the strategy selects models of that rank while skinnier sections represent a lower probability. 
-				
-				<br><br>
+				<font size="3">
+				<i><b>Distribution of the true ranks of the selected models.</b>
+					The x axis represents five methodologies for model selection:
+					ModelTeller, AIC, BIC, consistently using the GTR+I+G model, and selecting a model at random
+					for each datasets. The y axis represents the true ranks (from 1 to 24)
+					of the models selected by the methodologies according to the observed branch-length error
+					(where 1 and 24 represnt the most and least accurate models, respectively).
+					Left panel: distribution over the T<sub>1</sub> set with medians: 8 for ModelTeller and BIC,
+					9 for AIC and GTR+I+G, and 13 for a random selection of model.
+					Right panel: distribution over V with medians: 10 for ModelTeller, 13 for AIC, BIC,
+					and for a random selection of model, and 15 for GTR+I+G. The black horizontal lines represent
+					the medians, the thick white bars represent the interquartile (IQR) range, and the thin white
+					lines extend beyond 1.5*the IQR range. The violin plots represent a kernel density estimation of the underlying distribution of the true rank of the selected models; wider sections of the violin plot represent a higher probability that the methodology selects models of that rank while skinnier sections represent a lower probability.
+				</i></font><br><br>
 				<br><br>
 				<br><br>
 

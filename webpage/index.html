@@ -84,13 +84,39 @@
             </div>
             <div class="col-md-8" id="basic">
                 <div id="short_description">
-                ModelTeller extracts features from an input MSA and predicts the best substitution model for phylogenetic reconstruction,
-                    with an emphasis on <b>branch-lengths accuracy!</b><br>
-                Possible nucleotide models: JC, F81, K2P/K80, HKY, SYM, and GTR -- all with an additional parameter for the proportion of invariable sites (+I), rate-heterogeneity across sites sampled from the gamma distribution (+G), both (+I+G), or none.<br>
+                Current practices for model selection (e.g., AIC, BIC) are aimed at finding the underlying model, but don't always produce the most accurate phylogeny.
+                    <b>ModelTeller is a machine-learning based application that predicts the best substitution model for phylogenetic reconstruction,
+                    with an emphasis on branch-lengths accuracy!</b><br>
                 <u>Output:</u><br>
                 <ul>
-                    1. The <b>best predicted model</b> and the ranking of alternative models, in case that you cannot use the best model.<br>
+                    1. The <b>best predicted model</b> and the ranking of alternative models, in case that you cannot use the best model in downstream analysis.
+                    <button type="button" class="btn btn-lg glyphicon" data-toggle="modal" data-target="#models_info_modal" id="lib_info">&#xe085;</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="models_info_modal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h3 class="modal-title">Valid models</h3>
+                                </div>
+                                <div class="modal-body">
+                                    ModelTeller will return the best model, and the ranking of alternative models among the following 24 nucleotide substitution models: <br>
+                                        <ul>
+                                            <li> Jukes and Cantor 1969 (<b>JC</b>)</li>
+                                            <li> Felsenstein 1981 (<b>F81</b>)</li>
+                                            <li> Kimura two parameters 1980 (<b>K2P</b>)</li>
+                                            <li> Hasegawa-Kishino-Yano 1985 (<b>HKY</b>)</li>
+                                            <li> The generalized symmetrical model, Zharkikh, 1994 (<b>SYM</b>)</li>
+                                            <li> General Time Reversible, Tavare 1986 (<b>GTR</b>)</li><br>
+                                        </ul>
+                                    combined with the proportion of invariable sites (<b>+I</b>), rate heterogeneity across sites (<b>+G</b>), or both (<b>+I+G</b>).
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
                     2. The <b>maximum-likelihood tree</b>, reconstructed using the best model.<br>
+                    3. The <b>feature contribution analysis</b> to learn the weight of every feature in the prediction.<br>
                 </ul>
             </div>
                 <form id="MODELTELLER_form" action="https://modelteller.tau.ac.il/cgi-bin/modelteller_cgi.py" method="post" ENCTYPE="multipart/form-data" target="_blank" onsubmit="return validateFields();">
@@ -181,7 +207,7 @@
                     </div>
 
                     <div class="form-group row" id="user_defined_topology_block" hidden="hidden">
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <label for="user_defined_topology">
                                 Upload a tree to be used as a fixed topology (Newick format):
                             </label>
@@ -193,11 +219,14 @@
 
                     <div class="form-group row">
                         <div class="col-md-12">
+                            <div>
                             <label for="features_contributions">
-                                Compute features contributions (marking this option will incur long running time):
+                                <input type="checkbox" id="features_contributions" name="features_contributions">
+                                Compute feature contribution (checking this option will incur long running time)
                                 <br>
-                                <input type="checkbox" id="features_contributions" name="features_contributions" data-toggle="toggle">
+
                             </label>
+                                </div>
                         </div>
                     </div>
 
