@@ -57,7 +57,9 @@ def write_html_prefix(output_path, run_number):
     <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css">
 
     <link rel="stylesheet" href="{CONSTS.WEBSERVER_URL}/css/general.css">
-    <link rel="stylesheet" href="../webpage/css/general.css">
+    
+    <!-- for local debugging -->
+    <link rel="stylesheet" href="../frontend/css/general.css">
 
     </head><body>
     <nav role="navigation" class="navbar navbar-fixed-top">

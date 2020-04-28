@@ -16,8 +16,8 @@
 # Solution: make sure there are execution permissions!! chmod 755
 # https://www.1and1.com/cloud-community/learn/web-server/server-management/how-to-fix-http-error-code-500-internal-server-error/
 
-# chmod -R 755 /Users/Oren/Dropbox/Projects/modelteller/webpage/
-# rsync -avzr /Users/Oren/Dropbox/Projects/modelteller/webpage/* bioseq@host-ibis3.tau.ac.il:/var/www/html/modelteller/
+# chmod -R 755 /Users/Oren/Dropbox/Projects/modelteller/frontend/
+# rsync -avzr /Users/Oren/Dropbox/Projects/modelteller/frontend/* bioseq@host-ibis3.tau.ac.il:/var/www/html/modelteller/
 
 import cgi
 import cgitb
